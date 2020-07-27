@@ -67,23 +67,25 @@ class Unsplash {
   }
 
   searchByName(name) {
-    let queryString = "";
-    let response;
-    for (const [key, value] of Object.entries(this.params["search"])) {
-      if (value) {
-        queryString += `${key}=${value}`.concat("&");
+    return new Promise((resolve, reject) => {
+      let queryString = "";
+      let response;
+      for (const [key, value] of Object.entries(this.params["search"])) {
+        if (value) {
+          queryString += `${key}=${value}`.concat("&");
+        }
       }
-    }
-    queryString =
-      queryString.slice(0, queryString.length - 1) +
-      "&client_id=" +
-      this.clientId;
-    const url = this.url + this.searchURL + queryString;
-    const fetchProxy = new FetchProxy();
-    fetchProxy.get(url).then((resp) => resp.json())
-    .then((data) => {
-      response = this.processResponse(data);
-      return response;
+      queryString =
+        queryString.slice(0, queryString.length - 1) +
+        "&client_id=" +
+        this.clientId;
+      const url = this.url + this.searchURL + queryString;
+      const fetchProxy = new FetchProxy();
+      fetchProxy.get(url).then((resp) => resp.json())
+      .then((data) => {
+        response = this.processResponse(data);
+        resolve(response);
+      });
     });
   }
 
@@ -103,26 +105,34 @@ class Flickr {
   action() {}
 }
 
-export class SearchManager {
+class SearchManager {
   constructor() {
     this.results = [];
   }
   command(cmd) {
     this.cmd = cmd;
   }
+  
   execute() {
-    this.results.push(this.cmd.execute());
+    return new Promise((resolve, reject) => {
+      this.cmd.execute().then((data) => {
+        this.results.push(data);
+        resolve(data);
+      });
+    });
+   
   }
 }
 
 export default function Api(props) {
-  const unsplash = new Unsplash(props);
-  const cmd = new SearchByName(unsplash, props);
-  const searchManager = new SearchManager();
-  searchManager.command(cmd);
-  searchManager.execute();
-
-  searchManager.results.map((item) => {
-    console.log(item);
+  return new Promise((resolve, reject) => {
+    const unsplash = new Unsplash(props);
+    const cmd = new SearchByName(unsplash, props);
+    const searchManager = new SearchManager();
+    searchManager.command(cmd);
+    searchManager.execute().then((data) => {
+      console.log(data);
+      resolve(data);
+    });
   });
 }

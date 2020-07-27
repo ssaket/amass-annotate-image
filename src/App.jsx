@@ -47,8 +47,10 @@ export default class App extends Component {
 
   getResults = (searchTerm) => {
     this.setState({ searchTerm: searchTerm });
-    let data = Api(searchTerm);
-    console.log(data);
+    Api(searchTerm).then((data) => {
+      console.log(data);
+    });
+   
     // this.setState({ results: data });
   };
 
