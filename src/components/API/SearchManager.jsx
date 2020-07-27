@@ -15,17 +15,36 @@ class SearchByName extends Commands {
   constructor(recv, searchTerm) {
     super(recv);
     this.recv = recv;
+    this.name = 'search_by_name';
     this.searchTerm = searchTerm;
+    this.executionResults = [];
+    this.cachedData = null;
   }
 
-  execute() {
-    return this.recv.searchByName(this.searchTerm);
+  execute(cached=false) {
+    console.log("hello");
+    if(!cached){
+      this.recv.forEach(recv => {
+        this.executionResults.push(recv.searchByName(this.searchTerm));
+      });
+      return Promise.all(this.executionResults);
+    }
+    else{
+      return new Promise((resolve, reject) => resolve(this.cachedData));
+    }
+    
+  }
+
+  setCachedData(data){
+    this.cachedData = data;
   }
 }
 
 class SearchByTag extends Commands {
   constructor(recv) {
+    super(recv);
     this.recv = recv;
+    this.name = 'search_by_tag';
   }
   execute() {
     this.recv.action();
@@ -34,17 +53,28 @@ class SearchByTag extends Commands {
 
 class SearchManager {
   constructor() {
-    this.results = [];
+    this.commands = [];
   }
   command(cmd) {
-    this.cmd = cmd;
+    this.currentCmd = cmd;
   }
   
   execute() {
     return new Promise((resolve, reject) => {
-      this.cmd.execute().then((data) => {
-        this.results.push(data);
-        resolve(data);
+      let cached = false;
+      for(let cmd of this.commands){
+        if(cmd.name === this.currentCmd.name && cmd.searchTerm === this.currentCmd.searchTerm){
+          cached = true;
+          this.currentCmd = cmd;
+          break;
+        }
+      }
+      
+      this.commands.push(this.currentCmd);
+
+      this.currentCmd.execute(cached).then((data) => {
+          this.currentCmd.setCachedData(data);
+          resolve(data.flat());
       }, (error) => {
         reject(error);
       });
@@ -53,11 +83,14 @@ class SearchManager {
   }
 }
 
+export const searchManager = new SearchManager();
+
 export default function Api(props) {
   return new Promise((resolve, reject) => {
     const unsplash = new Unsplash(props);
-    const cmd = new SearchByName(unsplash, props);
-    const searchManager = new SearchManager();
+    const flickr = new Flickr(props);
+
+    const cmd = new SearchByName([unsplash, flickr], props);
     searchManager.command(cmd);
     searchManager.execute().then((data) => {
       resolve(data);

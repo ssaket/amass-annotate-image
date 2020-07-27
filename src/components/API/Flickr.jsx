@@ -36,7 +36,7 @@ export default class Flickr {
         }
         queryString =
           queryString.slice(0, queryString.length - 1) +
-          "&client_id=" + this.api_key + "&format=json&nojsoncallback=1";
+          "&api_key=" + this.api_key + "&format=json&nojsoncallback=1";
           const url = this.url + queryString;
           const fetchProxy = new FetchProxy();
           fetchProxy.get(url).then((resp) => resp.json())
@@ -52,9 +52,9 @@ export default class Flickr {
       const results = response.photos;
       const images = results.photo;
       images.map(item => {
-        imageList.push({'id':item.id,
+        imageList.push({'id': 'fl' + item.id,
         'name': item.title, 
-        'src': `https://www.farm${item.farm}.staticflickr.com/${item.server}/${item.id}_${item.secret}_z.jpg`});
+        'src': `https://farm${item.farm}.staticflickr.com/${item.server}/${item.id}_${item.secret}.jpg`});
       });
       return imageList;
     }
