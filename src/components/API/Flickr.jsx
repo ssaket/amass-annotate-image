@@ -2,12 +2,12 @@ import FetchProxy from "./FetchProxy"
 
 export default class Flickr {
     constructor() {
-      this.url =  "https://www.flickr.com/services/rest/";
-      this.searchURL = "/search/photos?";
+      this.url =  "https://www.flickr.com/services/rest/?";
       this.api_key = "2a03dd37dabb2c41b6dc45866141593e";
   
       this.params = {
         search: {
+          method:'flickr.photos.search',
           user_id: null,
           tags: 1,
           tag_mode: 20,
@@ -28,7 +28,7 @@ export default class Flickr {
       return new Promise((resolve, reject) => {
         let queryString = "";
         let response;
-        this.params["search"].query = params;
+        this.params["search"].text = params;
         for (const [key, value] of Object.entries(this.params["search"])) {
           if (value) {
             queryString += `${key}=${value}`.concat("&");
@@ -36,9 +36,8 @@ export default class Flickr {
         }
         queryString =
           queryString.slice(0, queryString.length - 1) +
-          "&client_id=" +
-          this.clientId;
-          const url = this.url + this.searchURL + queryString;
+          "&client_id=" + this.api_key + "&format=json&nojsoncallback=1";
+          const url = this.url + queryString;
           const fetchProxy = new FetchProxy();
           fetchProxy.get(url).then((resp) => resp.json())
           .then((data) => {
@@ -50,9 +49,12 @@ export default class Flickr {
   
     processResponse(response) {
       const imageList = [];
-      const results = response.results;
-      results.map(item => {
-        imageList.push({'id':item.id, 'src': item.urls.regular});
+      const results = response.photos;
+      const images = results.photo;
+      images.map(item => {
+        imageList.push({'id':item.id,
+        'name': item.title, 
+        'src': `https://www.farm${item.farm}.staticflickr.com/${item.server}/${item.id}_${item.secret}_z.jpg`});
       });
       return imageList;
     }
