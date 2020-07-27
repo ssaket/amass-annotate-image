@@ -3,15 +3,15 @@ import FetchProxy from "./FetchProxy"
 export default class Flickr {
     constructor() {
       this.url =  "https://www.flickr.com/services/rest/?";
-      this.api_key = "2a03dd37dabb2c41b6dc45866141593e";
+      this.api_key = `${process.env.REACT_APP_FLICKR_CLIENT_KEY}`;
   
       this.params = {
         search: {
           method:'flickr.photos.search',
           user_id: null,
-          tags: 1,
-          tag_mode: 20,
-          text: "relevant",
+          tags: null,
+          tag_mode: null,
+          text: null,
           min_upload_date: null,
           max_upload_date: null,
           min_taken_date: null,
@@ -29,6 +29,7 @@ export default class Flickr {
         let queryString = "";
         let response;
         this.params["search"].text = params;
+        this.params["search"].tags = params;
         for (const [key, value] of Object.entries(this.params["search"])) {
           if (value) {
             queryString += `${key}=${value}`.concat("&");
@@ -51,7 +52,7 @@ export default class Flickr {
       const imageList = [];
       const results = response.photos;
       const images = results.photo;
-      images.map(item => {
+      images.forEach(item => {
         imageList.push({'id': 'fl' + item.id,
         'name': item.title, 
         'src': `https://farm${item.farm}.staticflickr.com/${item.server}/${item.id}_${item.secret}.jpg`});

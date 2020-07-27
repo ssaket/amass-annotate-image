@@ -4,7 +4,7 @@ export default class Unsplash {
     constructor() {
       this.url = "https://api.unsplash.com";
       this.searchURL = "/search/photos?";
-      this.clientId = "G0UkTjGEIYoKIGv4KLA8h-gMyCoIKOrI6PrPOaUOGtI";
+      this.clientId = `${process.env.REACT_APP_UNSPLASH_ACCESS_KEY}`;
   
       this.params = {
         search: {
@@ -45,7 +45,7 @@ export default class Unsplash {
     processResponse(response) {
       const imageList = [];
       const results = response.results;
-      results.map(item => {
+      results.forEach(item => {
         imageList.push({'id':item.id, 'src': item.urls.regular});
       });
       return imageList;
