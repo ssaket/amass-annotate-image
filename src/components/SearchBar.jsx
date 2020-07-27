@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-
+import "./styles/SearchBar.css";
 export default class searchBar extends Component {
   state = { searchTerm: "" };
 
@@ -10,18 +10,18 @@ export default class searchBar extends Component {
 
   render() {
     return (
-      <div>
-        <div className="search">
+      <div className="row search">
+        <div className="col-sm-10">
           <input
             type="text"
-            className="form-control"
+            className="form-control search-box"
             placeholder="Enter an image to be searched...   "
             value={this.state.searchTerm}
             onChange={(e) => this.setSearchTerm(e)}
           />
         </div>
         <button
-          className="btn btn-primary"
+          className="btn search-btn col-sm-2 w-100"
           onClick={() => this.props.getResults(this.state.searchTerm)}
         >
           Search
