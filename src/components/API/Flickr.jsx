@@ -28,8 +28,8 @@ export default class Flickr {
       return new Promise((resolve, reject) => {
         let queryString = "";
         let response;
-        this.params["search"].text = params;
-        this.params["search"].tags = params;
+        this.params["search"].text = encodeURIComponent(params);
+        this.params["search"].tags = encodeURIComponent(params);
         for (const [key, value] of Object.entries(this.params["search"])) {
           if (value) {
             queryString += `${key}=${value}`.concat("&");
