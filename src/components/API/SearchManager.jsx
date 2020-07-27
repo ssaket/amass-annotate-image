@@ -9,8 +9,8 @@ class Commands {
 }
 
 class SearchByName extends Commands {
-  constuctor(recv, searchTerm = "car") {
-    console.log(searchTerm);
+  constructor(recv, searchTerm) {
+    super(recv);
     this.recv = recv;
     this.searchTerm = searchTerm;
   }
@@ -93,13 +93,13 @@ class Flickr {
 
 export class SearchManager {
   constructor() {
-    this.result = [];
+    this.results = [];
   }
   command(cmd) {
     this.cmd = cmd;
   }
   execute() {
-    this.result.push(this.cmd.execute());
+    this.results.push(this.cmd.execute());
   }
 }
 
@@ -109,6 +109,12 @@ export default function Api(props) {
   const searchManager = new SearchManager();
   searchManager.command(cmd);
   searchManager.execute();
-  // console.log(searchManager.result);
-  return searchManager.result;
+
+  searchManager.results.map((item) => {
+    item.then((resp) => resp.json())
+    .then(data => {
+      console.log(data);
+      return data;
+    });
+  });
 }
