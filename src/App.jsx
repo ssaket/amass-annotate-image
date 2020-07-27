@@ -48,10 +48,8 @@ export default class App extends Component {
   getResults = (searchTerm) => {
     this.setState({ searchTerm: searchTerm });
     Api(searchTerm).then((data) => {
-      console.log(data);
+      this.setState({ results: data });
     });
-   
-    // this.setState({ results: data });
   };
 
   render() {
