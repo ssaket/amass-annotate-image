@@ -3,7 +3,11 @@ export default class FetchProxy {
       this.url = url;
     }
   
-    get(url) {
-      return fetch(url, { mode: "cors" });
+    get(url, params = { mode: "cors" }) {
+      return fetch(url, params);
+    }
+
+    getCustomRequest(request){
+      return fetch(request);
     }
   }

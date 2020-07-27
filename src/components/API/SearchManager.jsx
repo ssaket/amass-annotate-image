@@ -1,6 +1,7 @@
 import Unsplash from "./Unsplash"
 import Flickr from "./Flickr"
 import Pixabay from "./Pixabay"
+import Pexels from "./Pexels"
 
 class Commands {
   constructor(recv) {
@@ -91,8 +92,9 @@ export default function Api(props) {
     const unsplash = new Unsplash(props);
     const flickr = new Flickr(props);
     const pixabay = new Pixabay(props)
+    const pexel = new Pexels(props)
 
-    const cmd = new SearchByName([unsplash, pixabay, flickr], props);
+    const cmd = new SearchByName([unsplash, pixabay, pexel, flickr], props);
     searchManager.command(cmd);
     searchManager.execute().then((data) => {
       resolve(data);
