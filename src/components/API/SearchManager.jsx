@@ -16,7 +16,6 @@ class SearchByName extends Commands {
   }
 
   execute() {
-    console.log(this.searchTerm, this.recv);
     return this.recv.searchByName(this.searchTerm);
   }
 }
@@ -35,7 +34,7 @@ class FetchProxy {
     this.url = url;
   }
 
-  async get(url) {
+  get(url) {
     return fetch(url, { mode: "cors" });
     // .then(function (response) {
     //   return response.json();
@@ -67,9 +66,9 @@ class Unsplash {
     };
   }
 
-  async searchByName(name) {
-    console.log(name);
+  searchByName(name) {
     let queryString = "";
+    let response;
     for (const [key, value] of Object.entries(this.params["search"])) {
       if (value) {
         queryString += `${key}=${value}`.concat("&");
@@ -81,7 +80,20 @@ class Unsplash {
       this.clientId;
     const url = this.url + this.searchURL + queryString;
     const fetchProxy = new FetchProxy();
-    return await fetchProxy.get(url);
+    fetchProxy.get(url).then((resp) => resp.json())
+    .then((data) => {
+      response = this.processResponse(data);
+      return response;
+    });
+  }
+
+  processResponse(response) {
+    const imageList = [];
+    const results = response.results;
+    results.map(item => {
+      imageList.push({'id':item.id, 'src': item.urls.regular});
+    });
+    return imageList;
   }
 }
 
@@ -111,10 +123,6 @@ export default function Api(props) {
   searchManager.execute();
 
   searchManager.results.map((item) => {
-    item.then((resp) => resp.json())
-    .then(data => {
-      console.log(data);
-      return data;
-    });
+    console.log(item);
   });
 }
