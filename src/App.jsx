@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import SearchBar from "./components/SearchBar";
-import getApiData from "./components/Api";
+import Api from "./components/API/SearchManager";
 import SearchResults from "./components/SearchResults";
 export default class App extends Component {
   state = {
@@ -17,13 +17,38 @@ export default class App extends Component {
         src:
           "https://images.unsplash.com/photo-1526129318478-62ed807ebdf9?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=1080&fit=max&ixid=eyJhcHBfaWQiOjE1MTYwOH0",
       },
+      {
+        id: "g-a",
+        name: "London",
+        src:
+          "https://images.unsplash.com/photo-1513635269975-59663e0ac1ad?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=1080&fit=max&ixid=eyJhcHBfaWQiOjE1MTYwOH0",
+      },
+      {
+        id: "c",
+        name: "London",
+        src:
+          "https://images.unsplash.com/photo-1526129318478-62ed807ebdf9?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=1080&fit=max&ixid=eyJhcHBfaWQiOjE1MTYwOH0",
+      },
+      {
+        id: "g-ws",
+        name: "London",
+        src:
+          "https://images.unsplash.com/photo-1513635269975-59663e0ac1ad?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=1080&fit=max&ixid=eyJhcHBfaWQiOjE1MTYwOH0",
+      },
+      {
+        id: "wa",
+        name: "London",
+        src:
+          "https://images.unsplash.com/photo-1526129318478-62ed807ebdf9?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=1080&fit=max&ixid=eyJhcHBfaWQiOjE1MTYwOH0",
+      },
     ],
     searchTerm: "",
   };
 
   getResults = (searchTerm) => {
     this.setState({ searchTerm: searchTerm });
-    let data = getApiData(searchTerm);
+    let data = Api(searchTerm);
+    console.log(data);
     // this.setState({ results: data });
   };
 
