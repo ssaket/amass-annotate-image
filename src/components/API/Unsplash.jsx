@@ -6,7 +6,7 @@ export default class Unsplash {
       this.searchURL = "/search/photos?";
       this.clientId = `${process.env.REACT_APP_UNSPLASH_ACCESS_KEY}`;
   
-      this.params = {
+      this._params = {
         search: {
           query: null,
           page: 1,
@@ -19,11 +19,11 @@ export default class Unsplash {
     }
 
     get params (){
-      return this.params;
+      return this._params;
     }
 
-    set params(params){
-      this.params = params;
+    set params(dprops){
+      this._params = dprops;
     }
   
     searchByName(params) {

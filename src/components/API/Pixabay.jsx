@@ -6,7 +6,7 @@ export default class Pixabay {
       this.searchURL = "/api/?";
       this.clientId = `${process.env.REACT_APP_PIXABAY_API_KEY}`;
   
-      this.params = {
+      this._params = {
         search: {
           q: null,
           lang: 'en',
@@ -19,6 +19,14 @@ export default class Pixabay {
           orientation: null,
         },
       };
+    }
+
+    get params (){
+      return this._params;
+    }
+
+    set params(dprops){
+      this._params = dprops;
     }
   
     searchByName(params) {
