@@ -2,6 +2,7 @@ import FetchProxy from "./FetchProxy"
 
 export default class Pexels {
     constructor() {
+      this.name = 'pexels';
       this.url =  "https://api.pexels.com/v1";
       this.searchURL = "/search?"
       this.api_key = `${process.env.REACT_APP_PEXELS_API_KEY}`;

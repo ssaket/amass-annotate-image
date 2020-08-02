@@ -2,6 +2,7 @@ import FetchProxy from "./FetchProxy"
 
 export default class Unsplash {
     constructor() {
+      this.name = 'unsplash';
       this.url = "https://api.unsplash.com";
       this.searchURL = "/search/photos?";
       this.clientId = `${process.env.REACT_APP_UNSPLASH_ACCESS_KEY}`;
