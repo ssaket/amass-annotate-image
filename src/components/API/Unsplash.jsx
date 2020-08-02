@@ -17,12 +17,20 @@ export default class Unsplash {
         },
       };
     }
+
+    get params (){
+      return this.params;
+    }
+
+    set params(params){
+      this.params = params;
+    }
   
     searchByName(params) {
       return new Promise((resolve, reject) => {
         let queryString = "";
         let response;
-        this.params["search"].query = params;
+        this.params["search"].query = encodeURIComponent(params);
         for (const [key, value] of Object.entries(this.params["search"])) {
           if (value) {
             queryString += `${key}=${value}`.concat("&");

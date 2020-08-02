@@ -4,7 +4,7 @@ export default class Flickr {
   constructor() {
     this.url = "https://www.flickr.com/services/rest/?";
     this.api_key = `${process.env.REACT_APP_FLICKR_CLIENT_KEY}`;
-    console.log(this.api_key);
+
     this.params = {
       search: {
         method: "flickr.photos.search",
@@ -23,6 +23,13 @@ export default class Flickr {
       },
     };
   }
+  get params() {
+    return this.params;
+  }
+
+  set params(params) {
+    this.params = params;
+  }
 
   searchByName(params) {
     return new Promise((resolve, reject) => {
@@ -35,6 +42,7 @@ export default class Flickr {
           queryString += `${key}=${value}`.concat("&");
         }
       }
+
       queryString =
         queryString.slice(0, queryString.length - 1) +
         "&api_key=" +
