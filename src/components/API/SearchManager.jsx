@@ -53,8 +53,25 @@ class SearchByTag extends Commands {
 
 class SearchManager {
   constructor() {
-    this.commands = [];
+    this._commands = [];
+    this._sources = [ new Unsplash(), new Flickr(), new Pixabay(), new Pexels()];
   }
+
+  get sources(){
+    return this._sources;
+  }
+
+  set sources(sources){
+    this._sources = sources;
+  }
+
+  addSource(name){    
+  }
+  
+  removeSource(name){
+    
+  }
+  
   command(cmd) {
     this.currentCmd = cmd;
   }
@@ -62,7 +79,7 @@ class SearchManager {
   execute() {
     return new Promise((resolve, reject) => {
       let cached = false;
-      for (let cmd of this.commands) {
+      for (let cmd of this._commands) {
         if (
           cmd.name === this.currentCmd.name &&
           cmd.searchTerm === this.currentCmd.searchTerm
@@ -73,7 +90,7 @@ class SearchManager {
         }
       }
 
-      this.commands.push(this.currentCmd);
+      this._commands.push(this.currentCmd);
 
       this.currentCmd.execute(cached).then(
         (data) => {
@@ -90,15 +107,10 @@ class SearchManager {
 
 export const searchManager = new SearchManager();
 
-//add sources
-const unsplash = new Unsplash();
-const flickr = new Flickr();
-const pixabay = new Pixabay();
-const pexel = new Pexels();
-
 export default function Api(props) {
   return new Promise((resolve, reject) => {
-    const cmd = new SearchByName([unsplash, pixabay, pexel, flickr], props);
+    console.log(searchManager.sources)
+    const cmd = new SearchByName(searchManager.sources, props);
     searchManager.command(cmd);
 
     searchManager.execute().then(
