@@ -54,17 +54,18 @@ class SearchByTag extends Commands {
 class SearchManager {
   constructor() {
     this._commands = [];
-    this._sources = [ new Unsplash(), new Flickr(), new Pixabay(), new Pexels()];
+    this._sources = [new Unsplash(), new Flickr(), new Pixabay(), new Pexels()];
   }
 
-  get sources(){
+  get sources() {
     return this._sources;
   }
 
-  set sources(sources){
+  set sources(sources) {
     this._sources = sources;
   }
 
+<<<<<<< HEAD
   addSource(source){
     if(typeof(source)!== 'string'){
       const found = this._sources.find(element => element.name === source);
@@ -76,11 +77,21 @@ class SearchManager {
   removeSource(name){
     const index = this._source.findIndex(element => element.name === name);
     if(index !== -1){
+=======
+  addSource(source) {
+    const found = this._sources.find((element) => element.name === source.name);
+    if (!found) this._sources.append(source);
+  }
+
+  removeSource(source) {
+    const index = this._source.findIndex(
+      (element) => element.name === source.name
+    );
+    if (index !== -1) {
+>>>>>>> 67ab9e20da1477bc72b53025f4642b5cad627bf0
       this._sources.splice(index, 1);
     }
-    
   }
-  
   command(cmd) {
     this.currentCmd = cmd;
   }
@@ -118,7 +129,7 @@ export const searchManager = new SearchManager();
 
 export default function Api(props) {
   return new Promise((resolve, reject) => {
-    console.log(searchManager.sources)
+    console.log(searchManager.sources);
     const cmd = new SearchByName(searchManager.sources, props);
     searchManager.command(cmd);
 
