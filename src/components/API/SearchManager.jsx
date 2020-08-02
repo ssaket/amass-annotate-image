@@ -54,24 +54,23 @@ class SearchByTag extends Commands {
 class SearchManager {
   constructor() {
     this._commands = [];
-    this._sources = [ new Unsplash(), new Flickr(), new Pixabay(), new Pexels()];
+    this._sources = [new Unsplash(), new Flickr(), new Pixabay(), new Pexels()];
   }
 
-  get sources(){
+  get sources() {
     return this._sources;
   }
 
-  set sources(sources){
+  set sources(sources) {
     this._sources = sources;
   }
 
-  addSource(name){    
+  addSource(name) {
+    console.log(name);
   }
-  
-  removeSource(name){
-    
-  }
-  
+
+  removeSource(name) {}
+
   command(cmd) {
     this.currentCmd = cmd;
   }
@@ -109,7 +108,7 @@ export const searchManager = new SearchManager();
 
 export default function Api(props) {
   return new Promise((resolve, reject) => {
-    console.log(searchManager.sources)
+    console.log(searchManager.sources);
     const cmd = new SearchByName(searchManager.sources, props);
     searchManager.command(cmd);
 
