@@ -6,6 +6,8 @@ import Pexels from "./Pexels"
 class Commands {
   constructor(recv) {
     this.recv = recv;
+    this.cachedData = null;
+    this.executionResults = [];
     if (new.target === Commands) {
       throw "Can't create object of the abstract class";
     }
@@ -16,11 +18,8 @@ class Commands {
 class SearchByName extends Commands {
   constructor(recv, searchTerm) {
     super(recv);
-    this.recv = recv;
     this.name = 'search_by_name';
     this.searchTerm = searchTerm;
-    this.executionResults = [];
-    this.cachedData = null;
   }
 
   execute(cached=false) {
@@ -32,7 +31,7 @@ class SearchByName extends Commands {
       return Promise.all(this.executionResults);
     }
     else{
-      return new Promise((resolve, reject) => resolve(this.cachedData));
+      return Promise.resolve(this.cachedData);
     }
     
   }
@@ -45,7 +44,6 @@ class SearchByName extends Commands {
 class SearchByTag extends Commands {
   constructor(recv) {
     super(recv);
-    this.recv = recv;
     this.name = 'search_by_tag';
   }
   execute() {
@@ -98,7 +96,9 @@ export default function Api(props) {
     searchManager.command(cmd);
     searchManager.execute().then((data) => {
       resolve(data);
-    }, (error) => 
-    console.error(error));
+    }, (error) => {
+      console.error(error);
+      reject(error);
+    });
   });
 }

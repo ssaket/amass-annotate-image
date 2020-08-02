@@ -23,7 +23,14 @@ export default class Flickr {
         },
       };
     }
-  
+    get params (){
+      return this.params;
+    }
+
+    set params(params){
+      this.params = params;
+    }
+    
     searchByName(params) {
       return new Promise((resolve, reject) => {
         let queryString = "";
