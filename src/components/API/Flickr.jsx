@@ -5,7 +5,7 @@ export default class Flickr {
     this.url = "https://www.flickr.com/services/rest/?";
     this.api_key = `${process.env.REACT_APP_FLICKR_CLIENT_KEY}`;
 
-    this.params = {
+    this._params = {
       search: {
         method: "flickr.photos.search",
         user_id: null,
@@ -24,11 +24,11 @@ export default class Flickr {
     };
   }
   get params() {
-    return this.params;
+    return this._params;
   }
 
-  set params(params) {
-    this.params = params;
+  set params(dprops) {
+    this._params = dprops;
   }
 
   searchByName(params) {

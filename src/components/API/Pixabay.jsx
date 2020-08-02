@@ -1,23 +1,32 @@
 import FetchProxy from "./FetchProxy";
 
 export default class Pixabay {
-  params = {
-    search: {
-      q: null,
-      lang: "en",
-      image_type: null,
-      category: null,
-      colors: null,
-      editors_choice: null,
-      order: null,
-      per_page: 30,
-      orientation: null,
-    },
-  };
   constructor() {
     this.url = "https://pixabay.com";
     this.searchURL = "/api/?";
     this.clientId = `${process.env.REACT_APP_PIXABAY_API_KEY}`;
+
+    this._params = {
+      search: {
+        q: null,
+        lang: "en",
+        image_type: null,
+        category: null,
+        colors: null,
+        editors_choice: null,
+        order: null,
+        per_page: 30,
+        orientation: null,
+      },
+    };
+  }
+
+  get params() {
+    return this._params;
+  }
+
+  set params(dprops) {
+    this._params = dprops;
   }
 
   searchByName(params) {
@@ -30,6 +39,7 @@ export default class Pixabay {
           queryString += `${key}=${value}`.concat("&");
         }
       }
+
       queryString =
         queryString.slice(0, queryString.length - 1) + "&key=" + this.clientId;
       const url = this.url + this.searchURL + queryString;

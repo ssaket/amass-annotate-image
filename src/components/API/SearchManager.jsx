@@ -90,13 +90,14 @@ class SearchManager {
 
 export const searchManager = new SearchManager();
 
+//add sources
+const unsplash = new Unsplash();
+const flickr = new Flickr();
+const pixabay = new Pixabay();
+const pexel = new Pexels();
+
 export default function Api(props) {
   return new Promise((resolve, reject) => {
-    const unsplash = new Unsplash(props);
-    const flickr = new Flickr(props);
-    const pixabay = new Pixabay(props);
-    const pexel = new Pexels(props);
-
     const cmd = new SearchByName([unsplash, pixabay, pexel, flickr], props);
     searchManager.command(cmd);
 
