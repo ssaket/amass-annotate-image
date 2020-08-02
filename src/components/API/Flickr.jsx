@@ -2,6 +2,7 @@ import FetchProxy from "./FetchProxy";
 
 export default class Flickr {
   constructor() {
+    this.name = 'flickr';
     this.url = "https://www.flickr.com/services/rest/?";
     this.api_key = `${process.env.REACT_APP_FLICKR_CLIENT_KEY}`;
 

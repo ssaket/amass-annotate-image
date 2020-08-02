@@ -65,10 +65,17 @@ class SearchManager {
     this._sources = sources;
   }
 
-  addSource(name){    
+  addSource(source){
+    const found = this._sources.find(element => element.name === source.name);
+    if(!found)
+      this._sources.append(source);
   }
   
-  removeSource(name){
+  removeSource(source){
+    const index = this._source.findIndex(element => element.name === source.name);
+    if(index !== -1){
+      this._sources.splice(index, 1);
+    }
     
   }
   
