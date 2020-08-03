@@ -1,0 +1,10 @@
+.object-panel {
+  height: 40vh;
+  border: 1px solid #efefef;
+  padding: 10px 15px;
+  overflow-y: scroll;
+}
+.object-panel button {
+  font-size: 10px;
+  width: 100%;
+}

@@ -16,3 +16,13 @@ img {
   vertical-align: bottom;
   padding: 5px;
 }
+.annotate-link a {
+  font-weight: bold;
+  padding: 5px 10px;
+  color: #666;
+}
+.annotate-link a:hover {
+  color: #666;
+  text-decoration: none;
+  color: #333;
+}
