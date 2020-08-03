@@ -1,10 +1,6 @@
 import React, { Component } from "react";
 import "./styles/SearchConfig.css";
 import { searchManager } from "./API/SearchManager";
-import Unsplash from "./API/Unsplash";
-import Flickr from "./API/Flickr";
-import Pexels from "./API/Pexels";
-import Pixabay from "./API/Pixabay";
 import { Form } from "react-bootstrap";
 export default class SearchConfig extends Component {
   state = {

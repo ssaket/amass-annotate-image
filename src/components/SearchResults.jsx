@@ -9,7 +9,9 @@ export default function SearchResults(props) {
           <h5 className="col-sm-12">
             Displaying results for "{props.searchTerm}"
             <span className="btn float-right annotate-link">
-              <Link to="/annotate">Annotate Images</Link>
+              <Link to={{ pathname: "/annotate", images: props.results }}>
+                Proceed to Annotate <span className="fa fa-arrow-right"></span>
+              </Link>
             </span>
           </h5>
         </React.Fragment>
