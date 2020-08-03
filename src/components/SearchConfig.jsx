@@ -5,18 +5,18 @@ import Unsplash from "./API/Unsplash";
 import Flickr from "./API/Flickr";
 import Pexels from "./API/Pexels";
 import Pixabay from "./API/Pixabay";
+import { Form } from "react-bootstrap";
 export default class SearchConfig extends Component {
   state = {
     configState: [
       {
         name: "Unsplash",
-        selected: false,
+        selected: true,
         configs: [],
-        object: new Unsplash(),
       },
-      { name: "Flickr", selected: false, configs: [] },
-      { name: "Pexels", selected: false, configs: [] },
-      { name: "Pixabay", selected: false, configs: [] },
+      { name: "Flickr", selected: true, configs: [] },
+      { name: "Pexels", selected: true, configs: [] },
+      { name: "Pixabay", selected: true, configs: [] },
     ],
   };
   componentDidMount() {
@@ -27,8 +27,15 @@ export default class SearchConfig extends Component {
     sliderElem.classList.toggle("closed");
   };
   handleSelect = (e, name) => {
-    console.log(e, name);
     const elem = e.target;
+    let c = this.state.configState;
+    c.forEach((item) => {
+      if (item.name === elem.value) {
+        item.selected = elem.checked;
+      }
+    });
+
+    this.setState({ configState: c });
     if (elem.checked) {
       searchManager.addSource(elem.getAttribute("name"));
     } else {
@@ -44,20 +51,23 @@ export default class SearchConfig extends Component {
         <div id="slider" className="config-content slider">
           <p>Sources:</p>
           <ul className="config-list">
-            {this.state.configState.map((config) => {
-              return (
-                <li className="config-item" key={config.name}>
-                  <input
-                    type="checkbox"
-                    className="config-checkbox"
-                    name={config.name}
-                    value={config.name}
-                    onClick={(e) => this.handleSelect(e, config.name)}
-                  />
-                  {config.name}
-                </li>
-              );
-            })}
+            <Form>
+              {this.state.configState.map((config) => {
+                return (
+                  <li className="config-item" key={config.name}>
+                    <Form.Check
+                      type="checkbox"
+                      id={config.name}
+                      label={config.name}
+                      name={config.name}
+                      checked={config.selected}
+                      value={config.name}
+                      onChange={(e) => this.handleSelect(e, config.name)}
+                    />
+                  </li>
+                );
+              })}
+            </Form>
           </ul>
         </div>
       </div>
