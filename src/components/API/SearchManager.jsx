@@ -73,7 +73,7 @@ class SearchManager {
   }
   
   removeSource(name){
-    const index = this._source.findIndex(element => element.name === name);
+    const index = this._sources.findIndex(element => element.name === name);
     if(index !== -1){
       this._sources.splice(index, 1);
     }
@@ -90,7 +90,9 @@ class SearchManager {
       for (let cmd of this._commands) {
         if (
           cmd.name === this.currentCmd.name &&
-          cmd.searchTerm === this.currentCmd.searchTerm
+          cmd.searchTerm === this.currentCmd.searchTerm &&
+          cmd.recv.length === this.currentCmd.recv.lenght &&
+          cmd.recv.filter(value => this.currentCmd.includes(value));
         ) {
           cached = true;
           this.currentCmd = cmd;
