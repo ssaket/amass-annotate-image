@@ -78,14 +78,14 @@ class SearchManager {
   }
   
   removeSource(name){
-    const index = this._sources.findIndex(element => element.name === name);
+    const index = this._sources.findIndex(element => element.name === name.toLowerCase());
     if(index !== -1){
       this._sources.splice(index, 1);
     }
   }
 
   createSourceObject(name){
-    switch(name){
+    switch(name.toLowerCase()){
       case "unsplash":
         return new Unsplash();
       case "pexels":
@@ -110,9 +110,9 @@ class SearchManager {
         if (
           cmd.name === this.currentCmd.name &&
           cmd.searchTerm === this.currentCmd.searchTerm &&
-          cmd.recv.length === this.currentCmd.recv.lenght &&
-          cmd.recv.filter(value => this.currentCmd.includes(value))
-        ) {
+          cmd.recv.length === this.currentCmd.recv.length &&
+          cmd.recv.filter(value => !this.currentCmd.recv.includes(value)).length > 0
+        ){
           cached = true;
           this.currentCmd = cmd;
           break;
