@@ -16,7 +16,8 @@ export default class Pixabay {
         colors: null,
         editors_choice: null,
         order: null,
-        per_page: 30,
+        page: 1,
+        per_page: 200,
         orientation: null,
       },
     };
@@ -49,6 +50,7 @@ export default class Pixabay {
         .get(url)
         .then((resp) => resp.json())
         .then((data) => {
+          console.log(data);
           response = this.processResponse(data);
           resolve(response);
         });

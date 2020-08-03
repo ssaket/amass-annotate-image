@@ -10,4 +10,32 @@ export default class FetchProxy {
     getCustomRequest(request){
       return fetch(request);
     }
+
+    async getACustomRequest(request){
+      const response = await fetch(request);
+      let content;
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      } 
+      else {
+        content = await response.json();
+        const jsonResponse = await content;
+        return jsonResponse;
+      }
+    }
+
+    async asyncGET(url){
+      const response = await fetch(url, {mode: 'cors'});
+      let content;
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      } 
+      else {
+        content = await response.json();
+        const jsonResponse = await content;
+        return jsonResponse;
+      }
+    }
   }

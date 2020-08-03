@@ -5,6 +5,7 @@ export default class Flickr {
     this.name = 'flickr';
     this.url = "https://www.flickr.com/services/rest/?";
     this.api_key = `${process.env.REACT_APP_FLICKR_CLIENT_KEY}`;
+    this.paginationDepth = 3;
 
     this._params = {
       search: {
@@ -20,6 +21,7 @@ export default class Flickr {
         license: null,
         machine_tags: null,
         page: 1,
+        per_page: 500,
         geo_context: null,
       },
     };
@@ -32,12 +34,12 @@ export default class Flickr {
     this._params = dprops;
   }
 
-  searchByName(params) {
-    return new Promise((resolve, reject) => {
+  generateURL(params){
       let queryString = "";
-      let response;
-      this.params["search"].text = encodeURIComponent(params);
-      this.params["search"].tags = encodeURIComponent(params);
+      if(params){
+        this.params["search"].text = encodeURIComponent(params);
+        this.params["search"].tags = encodeURIComponent(params);
+      }
       for (const [key, value] of Object.entries(this.params["search"])) {
         if (value) {
           queryString += `${key}=${value}`.concat("&");
@@ -49,22 +51,47 @@ export default class Flickr {
         "&api_key=" +
         this.api_key +
         "&format=json&nojsoncallback=1";
-      const url = this.url + queryString;
+       const url = this.url + queryString;
+       return url;
+  }
+
+  searchByName(params) {
+    return new Promise((resolve, reject) => {
+      let response;
+      const url = this.generateURL(params);
       const fetchProxy = new FetchProxy();
       fetchProxy
         .get(url)
         .then((resp) => resp.json())
         .then((data) => {
           response = this.processResponse(data);
-          resolve(response);
+          this.addPaginatedResponse(response).then(() => resolve(response));
         });
     });
+  }
+  async addPaginatedResponse(resp){
+    if(this.params["search"].page === this.paginationDepth + 1) return;
+    console.log("running for page ", this.params["search"].page);
+    this.params["search"].page += 1;
+    const url = this.generateURL();
+    const fetchProxy = new FetchProxy();
+    let res = await fetchProxy.asyncGET(url);
+    res = res.photos.photo;
+    res.forEach((item) => {
+      resp.push({
+        id: "fl" + item.id,
+        name: item.title,
+        src: `https://farm${item.farm}.staticflickr.com/${item.server}/${item.id}_${item.secret}.jpg`,
+      });
+    });
+    await this.addPaginatedResponse(resp);
   }
 
   processResponse(response) {
     const imageList = [];
     const results = response.photos;
     const images = results.photo;
+    console.log(results);
     images.forEach((item) => {
       imageList.push({
         id: "fl" + item.id,

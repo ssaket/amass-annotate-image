@@ -6,13 +6,14 @@ export default class Pexels {
       this.url =  "https://api.pexels.com/v1";
       this.searchURL = "/search?"
       this.api_key = `${process.env.REACT_APP_PEXELS_API_KEY}`;
+      this.paginationDepth = 3;
   
       this._params = {
         search: {
           query: null,
           local: null,
-          per_page: null,
-          page: null,
+          per_page: 80,
+          page: 1
         },
       };
     }
@@ -48,10 +49,36 @@ export default class Pexels {
           });
           fetchProxy.getCustomRequest(myRequest).then((resp) => resp.json())
           .then((data) => {
+            console.log(data);
             response = this.processResponse(data);
-            resolve(response);
+            this.addPaginatedResponse(response, data.next_page).then(() => resolve(response));
           });
       });
+    }
+
+    async addPaginatedResponse(resp, url){
+
+      if(this.paginationDepth === 0) return resp;
+
+      const fetchProxy = new FetchProxy();
+      const pheader = new Headers();
+      pheader.append('Authorization', this.api_key);
+      const myRequest = new Request(url, {
+        method: 'GET',
+        headers: pheader,
+        mode: 'cors',
+        cache: 'default',
+      });
+      const nresp = await fetchProxy.getACustomRequest(myRequest);
+      const results = nresp.photos;
+      results.forEach(item => {
+          resp.push({'id': 'pex' + item.id,
+            'name': item.photographer, 
+            'src': item.src.medium
+          });
+      });
+      this.paginationDepth--;
+      this.addPaginatedResponse(resp, nresp.next_page);
     }
   
     processResponse(response) {
@@ -62,6 +89,7 @@ export default class Pexels {
         'name': item.photographer, 
         'src': item.src.medium
       });
+      
     });
       return imageList;
     }
