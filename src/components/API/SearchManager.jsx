@@ -64,11 +64,16 @@ class SearchManager {
   set sources(sources){
     this._sources = sources;
   }
+
   addSource(source){
     if(typeof(source)!== 'string'){
       const found = this._sources.find(element => element.name === source);
       if(!found)
         this._sources.push(source);
+    }
+    else{
+      const sourceObj = this.createSourceObject(source);
+      this._sources.push(sourceObj);
     }
   }
   
@@ -77,7 +82,21 @@ class SearchManager {
     if(index !== -1){
       this._sources.splice(index, 1);
     }
-    
+  }
+
+  createSourceObject(name){
+    switch(name){
+      case "unsplash":
+        return new Unsplash();
+      case "pexels":
+        return new Pexels();
+      case "pixabay":
+        return new Pixabay();
+      case "flickr":
+        return new Flickr();
+      default:
+        return null;
+    }
   }
   
   command(cmd) {
@@ -92,7 +111,7 @@ class SearchManager {
           cmd.name === this.currentCmd.name &&
           cmd.searchTerm === this.currentCmd.searchTerm &&
           cmd.recv.length === this.currentCmd.recv.lenght &&
-          cmd.recv.filter(value => this.currentCmd.includes(value));
+          cmd.recv.filter(value => this.currentCmd.includes(value))
         ) {
           cached = true;
           this.currentCmd = cmd;
