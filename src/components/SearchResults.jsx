@@ -1,10 +1,18 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import "./styles/SearchResults.css";
 export default function SearchResults(props) {
   return (
     <div className="row search-results">
       {props.searchTerm ? (
-        <h5 className="col-sm-12">Displaying results for {props.searchTerm}</h5>
+        <React.Fragment>
+          <h5 className="col-sm-12">
+            Displaying results for "{props.searchTerm}"
+            <span className="btn float-right annotate-link">
+              <Link to="/annotate">Annotate Images</Link>
+            </span>
+          </h5>
+        </React.Fragment>
       ) : (
         ""
       )}
