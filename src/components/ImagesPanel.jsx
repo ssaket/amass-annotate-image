@@ -3,9 +3,12 @@ import "./styles/ImagesPanel.css";
 
 export default class ImagesPanel extends Component {
   render() {
+    const resultData = this.props.images
+      ? this.props.images
+      : JSON.parse(localStorage.getItem("results"));
     return (
       <div className="images-panel">
-        {this.props.images.map((image) => {
+        {resultData.map((image) => {
           return (
             <div
               className="thumbnail-image-container"

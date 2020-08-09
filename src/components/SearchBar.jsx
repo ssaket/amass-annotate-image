@@ -11,7 +11,7 @@ export default class searchBar extends Component {
   render() {
     return (
       <div className="row search">
-        <div className="col-sm-10">
+        <div className="col-sm-7 offset-sm-2">
           <input
             type="text"
             className="form-control search-box"

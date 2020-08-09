@@ -3,6 +3,7 @@ import SearchBar from "./SearchBar";
 import Api from "./API/SearchManager";
 import SearchResults from "./SearchResults";
 import SearchConfig from "./SearchConfig";
+import "./styles/SearchImagesPage.css";
 export default class SearchImagesPage extends Component {
   state = {
     results: [],
@@ -12,13 +13,16 @@ export default class SearchImagesPage extends Component {
   getResults = (searchTerm) => {
     this.setState({ searchTerm: searchTerm });
     Api(searchTerm).then((data) => {
-      console.log(data);
       this.setState({ results: data });
+      localStorage.setItem("results", JSON.stringify(data));
     });
   };
   render() {
     return (
       <React.Fragment>
+        <div className="row heading">
+          <h1 className="text-center w-100">Amass Images</h1>
+        </div>
         <div className="row">
           <div className="col-sm-11">
             <SearchBar getResults={this.getResults}></SearchBar>
@@ -28,12 +32,11 @@ export default class SearchImagesPage extends Component {
           <SearchConfig></SearchConfig>
         </div>
         <hr />
-        <div className="row">
-          <SearchResults
-            results={this.state.results}
-            searchTerm={this.state.searchTerm}
-          ></SearchResults>
-        </div>
+
+        <SearchResults
+          results={this.state.results}
+          searchTerm={this.state.searchTerm}
+        ></SearchResults>
       </React.Fragment>
     );
   }

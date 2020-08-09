@@ -19,6 +19,12 @@
   list-style-type: none;
   padding-left: 0;
 }
-.config-item .config-checkbox {
+.config-item {
+  display: inline-block;
+  margin-right: 50px;
+}
+.config-item input,
+.config-item label {
   margin-right: 10px;
+  cursor: pointer;
 }

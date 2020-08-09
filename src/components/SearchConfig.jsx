@@ -41,11 +41,8 @@ export default class SearchConfig extends Component {
   render() {
     return (
       <div className="col-sm-12 search-config-wrapper">
-        <p className="config-title" onClick={(e) => this.toggleSlider(e)}>
-          <b>Search Configuration</b> <i className="fa fa-chevron-down"></i>
-        </p>
-        <div id="slider" className="config-content slider">
-          <p>Sources:</p>
+        <div className="sources col-sm-6 offset-sm-3">
+          {/* <b>Sources:</b> */}
           <ul className="config-list">
             <Form>
               {this.state.configState.map((config) => {
@@ -66,6 +63,10 @@ export default class SearchConfig extends Component {
             </Form>
           </ul>
         </div>
+        {/* <p className="config-title" onClick={(e) => this.toggleSlider(e)}>
+          <b>Search Configuration</b> <i className="fa fa-chevron-down"></i>
+        </p>
+        <div id="slider" className="config-content slider"></div> */}
       </div>
     );
   }
