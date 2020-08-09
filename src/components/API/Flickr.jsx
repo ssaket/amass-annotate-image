@@ -2,7 +2,7 @@ import FetchProxy from "./FetchProxy";
 
 export default class Flickr {
   constructor() {
-    this.name = 'flickr';
+    this.name = "flickr";
     this.url = "https://www.flickr.com/services/rest/?";
     this.api_key = `${process.env.REACT_APP_FLICKR_CLIENT_KEY}`;
     this.paginationDepth = 3;
@@ -34,25 +34,25 @@ export default class Flickr {
     this._params = dprops;
   }
 
-  generateURL(params){
-      let queryString = "";
-      if(params){
-        this.params["search"].text = encodeURIComponent(params);
-        this.params["search"].tags = encodeURIComponent(params);
+  generateURL(params) {
+    let queryString = "";
+    if (params) {
+      this.params["search"].text = encodeURIComponent(params);
+      this.params["search"].tags = encodeURIComponent(params);
+    }
+    for (const [key, value] of Object.entries(this.params["search"])) {
+      if (value) {
+        queryString += `${key}=${value}`.concat("&");
       }
-      for (const [key, value] of Object.entries(this.params["search"])) {
-        if (value) {
-          queryString += `${key}=${value}`.concat("&");
-        }
-      }
+    }
 
-      queryString =
-        queryString.slice(0, queryString.length - 1) +
-        "&api_key=" +
-        this.api_key +
-        "&format=json&nojsoncallback=1";
-       const url = this.url + queryString;
-       return url;
+    queryString =
+      queryString.slice(0, queryString.length - 1) +
+      "&api_key=" +
+      this.api_key +
+      "&format=json&nojsoncallback=1";
+    const url = this.url + queryString;
+    return url;
   }
 
   searchByName(params) {
@@ -69,9 +69,8 @@ export default class Flickr {
         });
     });
   }
-  async addPaginatedResponse(resp){
-    if(this.params["search"].page === this.paginationDepth + 1) return;
-    console.log("running for page ", this.params["search"].page);
+  async addPaginatedResponse(resp) {
+    if (this.params["search"].page === this.paginationDepth + 1) return;
     this.params["search"].page += 1;
     const url = this.generateURL();
     const fetchProxy = new FetchProxy();
@@ -91,7 +90,6 @@ export default class Flickr {
     const imageList = [];
     const results = response.photos;
     const images = results.photo;
-    console.log(results);
     images.forEach((item) => {
       imageList.push({
         id: "fl" + item.id,

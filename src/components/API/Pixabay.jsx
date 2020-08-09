@@ -2,7 +2,7 @@ import FetchProxy from "./FetchProxy";
 
 export default class Pixabay {
   constructor() {
-    this.name = 'pixabay';
+    this.name = "pixabay";
     this.url = "https://pixabay.com";
     this.searchURL = "/api/?";
     this.clientId = `${process.env.REACT_APP_PIXABAY_API_KEY}`;
@@ -50,7 +50,6 @@ export default class Pixabay {
         .get(url)
         .then((resp) => resp.json())
         .then((data) => {
-          console.log(data);
           response = this.processResponse(data);
           resolve(response);
         });

@@ -24,7 +24,6 @@ class SearchByName extends Commands {
   }
 
   execute(cached = false) {
-    console.log("hello");
     if (!cached) {
       this.recv.forEach((recv) => {
         this.executionResults.push(recv.searchByName(this.searchTerm));
@@ -54,38 +53,38 @@ class SearchByTag extends Commands {
 class SearchManager {
   constructor() {
     this._commands = [];
-    this._sources = [ new Unsplash(), new Flickr(), new Pixabay(), new Pexels()];
+    this._sources = [new Unsplash(), new Flickr(), new Pixabay(), new Pexels()];
   }
 
-  get sources(){
+  get sources() {
     return this._sources;
   }
 
-  set sources(sources){
+  set sources(sources) {
     this._sources = sources;
   }
 
-  addSource(source){
-    if(typeof(source)!== 'string'){
-      const found = this._sources.find(element => element.name === source);
-      if(!found)
-        this._sources.push(source);
-    }
-    else{
+  addSource(source) {
+    if (typeof source !== "string") {
+      const found = this._sources.find((element) => element.name === source);
+      if (!found) this._sources.push(source);
+    } else {
       const sourceObj = this.createSourceObject(source);
       this._sources.push(sourceObj);
     }
   }
-  
-  removeSource(name){
-    const index = this._sources.findIndex(element => element.name === name.toLowerCase());
-    if(index !== -1){
+
+  removeSource(name) {
+    const index = this._sources.findIndex(
+      (element) => element.name === name.toLowerCase()
+    );
+    if (index !== -1) {
       this._sources.splice(index, 1);
     }
   }
 
-  createSourceObject(name){
-    switch(name.toLowerCase()){
+  createSourceObject(name) {
+    switch (name.toLowerCase()) {
       case "unsplash":
         return new Unsplash();
       case "pexels":
@@ -98,7 +97,7 @@ class SearchManager {
         return null;
     }
   }
-  
+
   command(cmd) {
     this.currentCmd = cmd;
   }
@@ -111,8 +110,9 @@ class SearchManager {
           cmd.name === this.currentCmd.name &&
           cmd.searchTerm === this.currentCmd.searchTerm &&
           cmd.recv.length === this.currentCmd.recv.length &&
-          cmd.recv.filter(value => !this.currentCmd.recv.includes(value)).length > 0
-        ){
+          cmd.recv.filter((value) => !this.currentCmd.recv.includes(value))
+            .length > 0
+        ) {
           cached = true;
           this.currentCmd = cmd;
           break;
@@ -138,7 +138,6 @@ export const searchManager = new SearchManager();
 
 export default function Api(props) {
   return new Promise((resolve, reject) => {
-    console.log(searchManager.sources)
     const cmd = new SearchByName(searchManager.sources, props);
     searchManager.command(cmd);
 
@@ -147,7 +146,6 @@ export default function Api(props) {
         resolve(data);
       },
       (error) => {
-        console.error(error);
         reject(error);
       }
     );
