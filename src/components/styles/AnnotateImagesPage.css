@@ -21,6 +21,7 @@
 .hero-image-container {
   width: 100%;
   height: 60vh;
+  border: 1px solid #efefef;
 }
 .hero-image-container img {
   width: 100%;
@@ -28,11 +29,51 @@
 .no-image {
   font-weight: bold;
   color: #ccc;
+  margin-top: 15%;
 }
 .message-container {
   width: 100%;
-  height: 30vh;
+  height: 20vh;
   border: 3px solid #eee;
   padding: 20px;
   border-radius: 5px;
+  margin-top: 10px;
+}
+.draw-btns {
+  background-color: #eee;
+  color: #333;
+  border: none;
+  box-shadow: -1px 6px 21px -10px;
+  font-weight: 600;
+}
+
+.draw-btns:hover {
+  background-color: #ddd;
+}
+
+.save-btn {
+  background-color: rgb(49, 165, 146);
+  border: none;
+  color: #fff;
+  font-weight: 500;
+}
+.save-btn:hover {
+  background-color: #2a9583;
+}
+.skip-btn {
+  background-color: rgb(236, 120, 120);
+  border: none;
+  color: #fff;
+  font-weight: 500;
+}
+.skip-btn:hover {
+  background-color: #df5f5f;
+}
+button {
+  font-size: 12px !important;
+  padding: 5px;
+}
+button:focus {
+  border: none;
+  outline: none !important;
 }

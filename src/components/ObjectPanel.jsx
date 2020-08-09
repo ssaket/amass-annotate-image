@@ -1,12 +1,21 @@
 import React, { Component } from "react";
-import { Button } from "react-bootstrap";
+import { Button, Form } from "react-bootstrap";
 import "./styles/ObjectPanel.css";
 export default class ObjectPanel extends Component {
   state = { objects: [] };
-  handleAddObject = () => {};
+  handleAddObject = () => {
+    let objects = this.state.objects;
+    objects.push(0);
+    this.setState({ objects: objects });
+  };
   render() {
     return (
       <div className="object-panel">
+        <div className="objects">
+          {this.state.objects.map((obj) => (
+            <Form.Check custom type="radio" label="radio" id="custom-radio" />
+          ))}
+        </div>
         <Button
           variant="secondary"
           size="sm"

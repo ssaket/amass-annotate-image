@@ -2,6 +2,8 @@ import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import ObjectPanel from "./ObjectPanel";
 import ImagesPanel from "./ImagesPanel";
+import ImageInfo from "./ImageInfo.jsx";
+import AnnotationInfo from "./AnnotationInfo";
 import "./styles/AnnotateImagesPage.css";
 export default class AnnotateImagesPage extends Component {
   state = { heroImageLink: "" };
@@ -9,7 +11,9 @@ export default class AnnotateImagesPage extends Component {
     this.setState({ heroImageLink: image.src });
     console.log(image.src);
   };
-
+  toggleDrawOption = (e) => {
+    let elem = e.target;
+  };
   render() {
     return (
       <div className="annotate-page-wrapper">
@@ -40,12 +44,33 @@ export default class AnnotateImagesPage extends Component {
                   <img src={this.state.heroImageLink} alt="hero Image" />
                 )}
               </div>
+              <div className="draw-btn-wrapper w-50">
+                <button
+                  className="w-50 draw-btns box active"
+                  onClick={(e) => this.toggleDrawOption(e)}
+                >
+                  Box Select
+                </button>
+                <button
+                  className="w-50 draw-btns pencil"
+                  onClick={(e) => this.toggleDrawOption(e)}
+                >
+                  Pencil Select
+                </button>
+              </div>
+              <div className="save-btn-wrapper w-50 text-right">
+                <button className="w-25 save-btn">Save</button>
+                <button className="w-25 skip-btn">Skip</button>
+              </div>
             </div>
             <div className="row">
               <div className="message-container">Message...</div>
             </div>
           </div>
-          <div className="col-sm-2">info</div>
+          <div className="col-sm-2">
+            <ImageInfo></ImageInfo>
+            <AnnotationInfo></AnnotationInfo>
+          </div>
         </div>
       </div>
     );
