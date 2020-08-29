@@ -5,11 +5,15 @@ import ImagesPanel from "./ImagesPanel";
 import ImageInfo from "./ImageInfo.jsx";
 import AnnotationInfo from "./AnnotationInfo";
 import "./styles/AnnotateImagesPage.css";
+import AnnotateImageManager from "../annotate/main.jsx";
+
 export default class AnnotateImagesPage extends Component {
   state = { heroImageLink: "" };
   getImage = (image) => {
     this.setState({ heroImageLink: image.src });
     console.log(image.src);
+    var canvas = document.getElementById('annotateCanvas');
+    const am = AnnotateImageManager;
   };
   toggleDrawOption = (e) => {
     let elem = e.target;
@@ -41,7 +45,7 @@ export default class AnnotateImagesPage extends Component {
                     Select an Image
                   </h1>
                 ) : (
-                  <img src={this.state.heroImageLink} alt="hero Image" />
+                  <canvas id="annotateCanvas" resize></canvas>
                 )}
               </div>
               <div className="draw-btn-wrapper w-50">

@@ -15,7 +15,7 @@ export default class ImagesPanel extends Component {
               key={image.id}
               onClick={() => this.props.getImage(image)}
             >
-              <img src={image.src} className="thumbnail-image" />
+              <img src={image.src} loading="lazy" className="thumbnail-image" />
             </div>
           );
         })}

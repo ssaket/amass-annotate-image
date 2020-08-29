@@ -30,6 +30,7 @@ export default function SearchResults(props) {
                 <img
                   src={result.src}
                   alt={result.name}
+                  loading="lazy"
                   className="result-img"
                 />
               </div>
