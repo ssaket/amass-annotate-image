@@ -54,6 +54,7 @@ class SearchManager {
   constructor() {
     this._commands = [];
     this._sources = [new Unsplash(), new Flickr(), new Pixabay(), new Pexels()];
+    console.info("Search Manager has been created, please add sources now");
   }
 
   get sources() {
@@ -132,22 +133,27 @@ class SearchManager {
       );
     });
   }
+
+  getImagesByName(name) {
+    if(this.sources.length === 0){
+      console.error("No sources, please add source to search");
+      return;
+    }
+    return new Promise((resolve, reject) => {
+      const cmd = new SearchByName(this.sources, name);
+      this.command(cmd);
+  
+      this.execute().then(
+        (data) => {
+          resolve(data);
+        },
+        (error) => {
+          reject(error);
+        }
+      );
+    });
+  }
+  
 }
 
-export const searchManager = new SearchManager();
-
-export default function Api(props) {
-  return new Promise((resolve, reject) => {
-    const cmd = new SearchByName(searchManager.sources, props);
-    searchManager.command(cmd);
-
-    searchManager.execute().then(
-      (data) => {
-        resolve(data);
-      },
-      (error) => {
-        reject(error);
-      }
-    );
-  });
-}
+export const ImageSearchManager = new SearchManager();
