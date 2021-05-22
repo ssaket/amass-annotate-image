@@ -1,7 +1,8 @@
 .image-filters{
-    display: block;
+    display: inline-block;
     position: fixed;
     top: 10rem;
     left: 4rem;
+    max-width: 10rem;
 
 }
