@@ -2,11 +2,12 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import ImageItem from './ImageItem';
 import { Link } from 'react-router-dom';
+import Spinner from '../common/Spinner';
 
 import ImageFilter from './ImageFilter';
 import './style.css';
 
-const Images = ({ images }) => {
+const Images = ({ images, loading }) => {
 
     const [count, setCount] = useState(0);
 
@@ -26,7 +27,8 @@ const Images = ({ images }) => {
                     <ImageFilter images={images} count={count} setCount={setCount} />
                 </div>
                 <div className="d-flex justify-content-center flex-wrap">
-                    {imageList}
+                    {loading && <Spinner />}
+                    {!loading && imageList}
                 </div>
             </div>
         </React.Fragment>

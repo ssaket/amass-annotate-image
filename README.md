@@ -17,6 +17,7 @@ ammass-annotate-images let's you search and annotate images from different sourc
     - COCO-SEARCH-18
 
 ## TODOs
+- [ ] add loading spinner
 - [ ] add pagination support
 - [ ] add annotate page
 - [ ] add search term in search page

@@ -3,11 +3,12 @@ import { useHistory } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import './style.css';
 
-const ImageSearch = ({ searchImages }) => {
+const ImageSearch = ({ searchImages, setLoading }) => {
     
     const history = useHistory();
 
     const [imageList, setImageList] = useState('');
+
     const [source, setSource] = useState({
         flickr: false,
         pexels: false,
@@ -21,6 +22,7 @@ const ImageSearch = ({ searchImages }) => {
             //this.props.setAlert('');
             console.log("Invalid Search");
         } else {
+            setLoading(true);
             searchImages(imageList, source);
             setImageList('');
             history.push('/images');
