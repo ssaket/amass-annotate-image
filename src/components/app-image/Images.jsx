@@ -2,19 +2,18 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import ImageItem from './ImageItem';
 import { Link } from 'react-router-dom';
+
+import ImageFilter from './ImageFilter';
 import './style.css';
 
 const Images = ({ images }) => {
 
-    const [isChecked, setCheckbox] = useState(false);
+    const [count, setCount] = useState(0);
 
-    const onChange = e => {
-        setCheckbox(e.target.checked);
-        for (const image of images) {
-            image.checked = e.target.checked;
-            console.log(image, image.checked);
-        }
-    }
+    const imageList = images.map((image) => {
+        return <ImageItem key={image.id} 
+        image={image} count={count} />
+    })
 
     return (
         <React.Fragment>
@@ -23,36 +22,30 @@ const Images = ({ images }) => {
             </div>
             <div className="my-5 w-100">
                 <div className="image-filters">
-                    <Link to={'/'} className="badge badge-secondary">Go Back</Link>
-                    <div className="">
+                    {/*  <Link to={'/'} className="badge badge-secondary">Go Back</Link>
+                   <div className="row">
                         <label htmlFor="inputPassword" className="col-sm-2 col-form-label">pages</label>
-                        <div className="col-sm-10">
+                        <div className="col-12">
                             <input type="text" className="form-control" id="inputPassword" />
                         </div>
-                        <div className="">
-                            <label htmlFor="inputPassword" className="col-sm-2 col-form-label">search</label>
-                            <div className="col-sm-10">
-                                <input type="text" className="form-control" id="inputPassword" />
-                            </div>
+                        <label htmlFor="inputPassword" className="col-sm-2 col-form-label">search</label>
+                        <div className="col-12">
+                            <input type="text" className="form-control" id="inputPassword" />
                         </div>
-                        <div className="mt-2 p-3">
-                            <div className="form-check">
-                                <div className="col-sm-10">
-                                    <input onChange={onChange} checked={isChecked} className="form-check-input" type="checkbox" id="selectAll" />
-                                    <label className="form-check-label" htmlFor="selectAll">
-                                        Select All
-                                    </label>
-                                </div>
+                        <div className="col-12">
+                            <div className="form-check mt-2 px-2">
+                                <input onChange={onChange} checked={isChecked} className="form-check-input" type="checkbox" id="selectAll" />
+                                <label className="form-check-label" htmlFor="selectAll">
+                                    Select All
+                                </label>
                             </div>
+                            <p>count: {count}</p>
                         </div>
-                    </div>
+                    </div> */}
+                    <ImageFilter images={images} count={count} setCount={setCount} />
                 </div>
                 <div className="d-flex justify-content-center flex-wrap">
-                    {images.map(image => {
-                        return <React.Fragment>
-                            <ImageItem key={image.id} image={image} onChange={onChange} />
-                        </React.Fragment>
-                    })}
+                    {imageList}
                 </div>
             </div>
         </React.Fragment>
