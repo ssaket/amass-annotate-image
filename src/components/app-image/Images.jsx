@@ -12,7 +12,7 @@ const Images = ({ images }) => {
 
     const imageList = images.map((image) => {
         return <ImageItem key={image.id} 
-        image={image} count={count} />
+        image={image} count={count} setCount={setCount}/>
     })
 
     return (
@@ -22,26 +22,7 @@ const Images = ({ images }) => {
             </div>
             <div className="my-5 w-100">
                 <div className="image-filters">
-                    {/*  <Link to={'/'} className="badge badge-secondary">Go Back</Link>
-                   <div className="row">
-                        <label htmlFor="inputPassword" className="col-sm-2 col-form-label">pages</label>
-                        <div className="col-12">
-                            <input type="text" className="form-control" id="inputPassword" />
-                        </div>
-                        <label htmlFor="inputPassword" className="col-sm-2 col-form-label">search</label>
-                        <div className="col-12">
-                            <input type="text" className="form-control" id="inputPassword" />
-                        </div>
-                        <div className="col-12">
-                            <div className="form-check mt-2 px-2">
-                                <input onChange={onChange} checked={isChecked} className="form-check-input" type="checkbox" id="selectAll" />
-                                <label className="form-check-label" htmlFor="selectAll">
-                                    Select All
-                                </label>
-                            </div>
-                            <p>count: {count}</p>
-                        </div>
-                    </div> */}
+                    <Link to={'/'} className="badge badge-secondary">Go Back</Link>
                     <ImageFilter images={images} count={count} setCount={setCount} />
                 </div>
                 <div className="d-flex justify-content-center flex-wrap">

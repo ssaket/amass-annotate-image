@@ -26,7 +26,7 @@ const ImageFilter = ({ images, count, setCount }) => {
                         <input type="text" id="description" className="form-control form-control-sm" placeholder="Search" />
                     </div>
                     <div className="mb-3">
-                        <div class="row">
+                        <div className="row">
                             <div className="col">
                                 <label htmlFor="imageperpages" className="form-label">Items per page </label>
                             </div>
