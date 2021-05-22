@@ -53,7 +53,7 @@ class SearchByTag extends Commands {
 class SearchManager {
   constructor() {
     this._commands = [];
-    this._sources = [new Unsplash(), new Flickr(), new Pixabay(), new Pexels()];
+    this._sources = [];
     console.info("Search Manager has been created, please add sources now");
   }
 
@@ -63,6 +63,11 @@ class SearchManager {
 
   set sources(sources) {
     this._sources = sources;
+  }
+
+  reset(){
+    this._commands = [];
+    this._sources = [];
   }
 
   addSource(source) {
