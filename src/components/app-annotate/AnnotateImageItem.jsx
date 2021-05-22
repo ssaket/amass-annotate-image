@@ -1,18 +1,31 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
+import {paper} from 'paper';
 
-const AnnotateImages = () => {
+const AnnotateImageItem = ({canvas}) => {
+    
+    const [width, setWidth] = useState(500);
+    const [height, setHeight] = useState(400);
+
+    useEffect(( ) => {
+        paper.setup(canvas.current);
+        const point1 = new paper.Point(0, 0);
+        const point2 = new paper.Point(width, 0);
+        const point3 = new paper.Point(width, height);
+        const point4 = new paper.Point(0, height);
+
+        const path1 = new paper.Path(point1, point3);
+        const path2 = new paper.Path(point2, point4);
+
+        path1.strokeColor = 'black';
+        path2.strokeColor = 'black';
+       
+    }, []);
+
     return (
         <React.Fragment>
-            <div className="card" style="width: 18rem;">
-                <img src="..." className="card-img-top" alt="..." />
-                <div className="card-body">
-                    <h5 className="card-title">Card title</h5>
-                    <p className="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                    <a href="#" className="btn btn-primary">Go somewhere</a>
-                </div>
-            </div>
+            <canvas ref={canvas} id="canvas" width={width} height={height} />
         </React.Fragment>
     );
 }
 
-export default AnnotateImages
+export default AnnotateImageItem
