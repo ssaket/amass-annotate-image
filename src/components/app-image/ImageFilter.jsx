@@ -1,6 +1,9 @@
 import React, { useState } from 'react';
+import {useHistory} from 'react-router-dom';
 
 const ImageFilter = ({ images, count, setCount }) => {
+
+    const history = useHistory();
 
     const [isChecked, setCheckbox] = useState(false);
 
@@ -16,9 +19,13 @@ const ImageFilter = ({ images, count, setCount }) => {
         e.target.checked ? setCount(curr_cnt) : setCount(0);
     }
 
+    const onSubmit = e => {
+        history.push('/annotate', images);
+    }
+
     return (
         <React.Fragment>
-            <form className="my-4">
+            <form className="my-4" onSubmit={onSubmit}>
                 <fieldset>
                     <legend>filters</legend>
                     <div className="mb-3">

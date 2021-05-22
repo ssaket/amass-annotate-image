@@ -1,11 +1,17 @@
-import React from 'react';
+import React, {useSate} from 'react';
+import PropTypes from 'prop-types';
 
-const Spinner = (props) => {
+const Spinner = ({styleName}) => {
+
     return <React.Fragment>
-        <div className="spinner-border" role="status">
+        <div className={"spinner-border " + styleName} role="status">
             <span className="visually-hidden"></span>
         </div>
     </React.Fragment>
+}
+
+Spinner.propTypes = {
+    styleName: PropTypes.string.isRequired
 }
 
 export default Spinner

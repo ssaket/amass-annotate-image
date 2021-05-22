@@ -27,7 +27,7 @@ const Images = ({ images, loading }) => {
                     <ImageFilter images={images} count={count} setCount={setCount} />
                 </div>
                 <div className="d-flex justify-content-center flex-wrap">
-                    {loading && <Spinner />}
+                    {loading && <Spinner styleName={""}/>}
                     {!loading && imageList}
                 </div>
             </div>

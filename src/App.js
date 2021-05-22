@@ -1,9 +1,10 @@
 import Navbar from './components/common/Navbar'
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import ImageSearch from './components/app-search/ImageSearch';
 import Images from './components/app-image/Images';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import { ImageSearchManager } from './main/app-api/SearchManager';
+import AnnotateImages from './components/app-annotate/AnnotateImages';
 
 import './bootstrap.min.css';
 
@@ -40,6 +41,9 @@ const App = () => {
               </React.Fragment>
             )}
             />
+            <Route exact path="/annotate" render={ props => (
+                <AnnotateImages {...props} />
+            )} />
           </Switch>
         </div>
       </div>
