@@ -6,7 +6,7 @@ const ImageSearch = ({ searchImages }) => {
     const [imageList, setImageList] = useState('');
     const [source, setSource] = useState({
         flickr: false,
-        pexel: false,
+        pexels: false,
         pixabay: false,
         unsplash: false
     });
@@ -43,8 +43,8 @@ const ImageSearch = ({ searchImages }) => {
                             <label className="form-check-label" htmlFor="flickr"> Flickr</label>
                         </div>
                         <div className="form-check form-switch">
-                            <input onChange={onChange} checked={source.pexel} className="form-check-input" type="checkbox" id="pexel" />
-                            <label className="form-check-label" htmlFor="pexel">Pexel</label>
+                            <input onChange={onChange} checked={source.pexels} className="form-check-input" type="checkbox" id="pexels" />
+                            <label className="form-check-label" htmlFor="pexels">Pexel</label>
                         </div>
                         <div className="form-check form-switch">
                             <input onChange={onChange} checked={source.pixabay} className="form-check-input" type="checkbox" id="pixabay" />

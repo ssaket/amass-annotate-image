@@ -9,7 +9,7 @@ import './bootstrap.min.css';
 const App = () => {
 
   const searchImages = async (text, sources) => {
-    console.log("searching", text, sources);
+    ImageSearchManager.reset();
     Object.entries(sources).forEach(([key, value]) => value? ImageSearchManager.addSource(key):null); 
     const data = await ImageSearchManager.getImagesByName(text);
     console.log(data);
