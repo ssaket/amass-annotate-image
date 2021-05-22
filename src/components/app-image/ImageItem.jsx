@@ -16,3 +16,5 @@ const ImageItem = ({image}) => {
         </React.Fragment>
     );
 }
+
+export default ImageItem
