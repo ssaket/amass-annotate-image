@@ -1,38 +1,24 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 // import cv from '../../AnnotateManager';
 
-import WebWorker from "react-webworker"
-
 const AnnotateImageToolbox = ({ canvas }) => {
+    
+    useEffect(() => {
+        const ctx = canvas.current.getContext('2d');
+        console.log(ctx);
+    }, []);
 
     const [useOpenCV, setOpenCV] = useState({
         isOn: false,
         data: {}
     });
 
-    useEffect(() => {
-        const ctx = canvas.current.getContext('2d');
-    }, []);
-
     return (
         <React.Fragment>
-            <WebWorker url="/js/cv.worker.js">
-                {({ data, error, postMessage, updatedAt, lastPostAt }) => (
-                    <div>
-                        {data && (
-                            <div>
-                                <strong>Received some data:</strong>
-                                <pre>{JSON.stringify(data, null, 2)}</pre>
-                            </div>
-                        )}
-                        <button onClick={() => postMessage("hello")} disabled={updatedAt < lastPostAt}>
-                            {updatedAt < lastPostAt ? "Loading..." : "Go"}
-                        </button>
-                    </div>
-                )}
-            </WebWorker>
+            {/* {useOpenCV.isOn &&
+            } */}
             <div className="w-10">
                 <div className="form-check">
                     <input className="form-check-input" type="checkbox" value="" id="defaultCheck1" />

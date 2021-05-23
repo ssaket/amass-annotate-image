@@ -17,6 +17,8 @@ const ImageItem = ({ image, count, setCount }) => {
     }
 
     const onImageLoad = e => {
+        image.naturalWidth = e.target.naturalWidth;
+        image.naturalHeight = e.target.naturalHeight;
         setImageLoaded(true);
     }
 
@@ -24,18 +26,17 @@ const ImageItem = ({ image, count, setCount }) => {
         <React.Fragment>
             <div className="m-2 px-3">
                 <figure className="figure">
-                    {!isImageLoaded &&
-                        <Spinner styleName={"text-warning text-center"} />}
                     <img src={src} loading="lazy" style={{ maxWidth: '15rem' }} onLoad={onImageLoad} className="figure-img img-fluid rounded" alt={name} />
                     <figcaption className="figure-caption text-end">
                         <div className="form-check">
-                            {isImageLoaded && <React.Fragment>
+                         <React.Fragment>
+                                {isImageLoaded ?
                                 <input onChange={onChange} className="form-check-input" type="checkbox" value="" id={'src_' + id} checked={checked ? checked : isChecked} />
+                                : <Spinner styleName={"spinner-grow spinner-grow-sm text-warning"} />}
                                 <label className="form-check-label" htmlFor={id}>
-                                    Annotate
+                                    {isImageLoaded? "Annotate": "Downloading"}
                                 </label>
                             </React.Fragment>
-                            }
                         </div>
                     </figcaption>
                 </figure>

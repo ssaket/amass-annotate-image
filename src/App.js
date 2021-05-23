@@ -1,4 +1,4 @@
-import Navbar from './components/common/Navbar'
+import Navbar from './components/common/Navbar';
 import React, { useState } from 'react';
 import ImageSearch from './components/app-search/ImageSearch';
 import Images from './components/app-image/Images';
@@ -37,12 +37,12 @@ const App = () => {
             }></Route>
             <Route exact path="/images" render={props => (
               <React.Fragment>
-                <Images images={images} loading={isLoading} />
+                <Images {...props} images={images} loading={isLoading} />
               </React.Fragment>
             )}
             />
             <Route exact path="/annotate" render={ props => (
-                <AnnotateImages {...props} />
+                <AnnotateImages {...props} images={images}/>
             )} />
           </Switch>
         </div>

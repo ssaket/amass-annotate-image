@@ -13,14 +13,13 @@ const ImageFilter = ({ images, count, setCount }) => {
         for (const image of images) {
             curr_cnt++;
             image.checked = e.target.checked;
-            console.log(image, image.checked);
         }
 
         e.target.checked ? setCount(curr_cnt) : setCount(0);
     }
 
     const onSubmit = e => {
-        history.push('/annotate', images);
+        history.push('/annotate');
     }
 
     return (
