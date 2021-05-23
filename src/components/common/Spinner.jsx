@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 const Spinner = ({styleName}) => {
 
     return <React.Fragment>
-        <div className={"spinner-border " + styleName} role="status">
+        <div className={styleName} role="status">
             <span className="visually-hidden"></span>
         </div>
     </React.Fragment>
