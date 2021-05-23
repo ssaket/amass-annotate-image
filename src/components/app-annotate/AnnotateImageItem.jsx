@@ -4,78 +4,54 @@ import cv from '../../services/cv';
 
 import { paper } from 'paper';
 
-const AnnotateImageItem = ({ canvas, activeImage, postMessage, data }) => {
+const AnnotateImageItem = ({ canvas, activeImage, postMessage, imageElemList, data }) => {
 
-    const [width, setWidth] = useState(500);
+    const [width, setWidth] = useState(600);
     const [height, setHeight] = useState(400);
+    const [isPaperOn, setPaperOn] = useState(false);
     const [processing, setProcessing] = useState(false)
 
-    const [pr, setPaper] = useState(paper.setup(canvas.current));
+    // const [pr, setPaper] = useState(paper.setup(canvas.current));
 
-    async function onClick(ctx, img, w,h, octx) {
-        setProcessing(true)
-    
-        // const ctx = canvas.getContext('2d')
-        ctx.drawImage(img, 0, 0, w, h)
-        const image = ctx.getImageData(0, 0, w, h)
+    async function onClick(ctx, w, h) {
+        setProcessing(true);
         // Load the model
-        await cv.load()
+        await cv.load();
         // Processing image
-        const processedImage = await cv.imageProcessing(image)
+        const image = ctx.getImageData(0, 0, width, height);
+        const processedImage = await cv.imageProcessing(image);
         // Render the processed image to the canvas
-        octx.putImageData(processedImage.data.payload, 0, 0)
-        setProcessing(false)
-      }
-    
+        console.log("payload", processedImage.data.payload);
+        ctx.putImageData(processedImage.data.payload, 0, 0);
+        setProcessing(false);
+    }
 
-    // const myWorker = new Worker("/js/cv.worker.js");
-    // // myWorker.postMessage([width, height]);
-    // myWorker.onmessage = function (e) {
-    //     // result.textContent = e.data;
-    //     console.log('Message received from worker', e.data);
-    // }
 
     useEffect(() => {
-        if(!activeImage) return;
+
+        if (!activeImage) return;
+        const { cwidth, cheight } = canvas.current.getBoundingClientRect();
+        if(!isPaperOn){
+            paper.setup(canvas.current)
+            setPaperOn(true);
+        }
+
         console.log("applying ratser", activeImage);
-        console.log("raster", activeImage.naturalWidth, activeImage.naturalHeight);
-        // setWidth(activeImage.naturalWidth);
-        // setHeight(activeImage.naturalHeight)
+        console.log("raster", width, height);
+        console.log("mini canvas clicked");
 
-        const w =activeImage.naturalWidth;
-        const h= activeImage.naturalHeight;
-
-        const ncanvas = document.createElement('canvas');
-        const ctx = ncanvas.getContext('2d');
         const octx = canvas.current.getContext('2d');
-        // octx.clearRect(0, 0, 500, 400);
-        const img = document.getElementById(activeImage.id);
-        console.log(img);
-        // octx.drawImage(img, 0, 0, 500, 400);
-
-        console.log(ctx);
-        console.log(w, h);
-        // onClick(ctx, activeImage, w, h, octx);
-        // ctx.fillStyle = '#000000';
-        // ctx.fillRect(0, 0, activeImage.naturalWidth, activeImage.naturalHeight)
-        // canvas.current.toBlob(function(blob) {        // get content as JPEG blob
-        //     // here the image is a blob
-        //   }, "image/jpeg", 0.75);
-        // ctx.fillRect(0, 0, activeImage.naturalWidth, activeImage.naturalHeight)
-       
-        // const raster = new paper.Raster(activeImage.id);
-        // raster.position = paper.view.center;
-
-        // raster.on('load', () => {
-        //   //  raster.size = new paper.Size(activeImage.width,  activeImage.height);
-        // });
+        octx.clearRect(0, 0, width, height);
+        const img = imageElemList.find(({ id }) => "imageThumbcanvas_" + id === activeImage.id);
+        octx.drawImage(img, 0, 0, 600, 400);
+        // onClick(octx, 500, 400);
 
     }, [activeImage]);
 
     return (
         <React.Fragment>
-            {data && <h3>JSON.stringify(data)</h3>}
-            <canvas ref={canvas} id="canvas" style={{width: width, height: height}} />
+                <canvas ref={canvas} id="canvas" width={width} height={height} />
+                {data && <h3>JSON.stringify(data)</h3>}
         </React.Fragment>
     );
 }

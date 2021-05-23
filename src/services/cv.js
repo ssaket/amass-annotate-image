@@ -31,11 +31,18 @@ class CV {
    */
   load() {
     this._status = {}
-    this.worker = new Worker(`${process.env.ASSET_PREFIX}/js/cv.worker.js`) // load worker
+    this.worker = new Worker('/js/cv.worker.js') // load worker
 
     // Capture events and save [status, event] inside the _status object
-    this.worker.onmessage = e => this._status[e.data.msg] = ['done', e]
-    this.worker.onerror = e => this._status[e.data.msg] = ['error', e]
+    console.log("loaded cv worker");
+    this.worker.onmessage = e => {
+      console.log(e.data);
+      this._status[e.data.msg] = ['done', e];
+    }
+    this.worker.onerror = e => {
+      console.log(e.data);
+      this._status[e.data.msg] = ['error', e];
+    }
     return this._dispatch({ msg: 'load' })
   }
 
