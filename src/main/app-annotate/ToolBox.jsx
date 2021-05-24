@@ -5,7 +5,8 @@ class ToolBox {
     constructor(scope, tools) {
       this.toolName = {
         'freehand': toolPath,
-        'circle': toolCircle
+        'circle': toolCircle,
+        'rectangle': toolRectangle
       }
       this.tools = tools.map(tool =>  this.toolName[tool](scope));
     }
@@ -28,8 +29,8 @@ class ToolBox {
 
     tool.onMouseDown = function(event) {
       path = new paper.Path()
-      path.strokeColor = '#424242'
-      path.strokeWidth = 4
+      path.strokeColor = 'black';
+      path.strokeWidth = 3
       path.add(event.point)
     }
 
@@ -40,7 +41,6 @@ class ToolBox {
     return tool
   }
 
-  // Tool Circle, draws a 30px circle on mousedown
 
   const toolCircle = (paper) => {
     const tool = new paper.Tool()
@@ -59,6 +59,30 @@ class ToolBox {
     return tool
   }
 
-  // Construct a Toolstack, passing your Tools
+  const toolRectangle = (paper) => {
+    const tool = new paper.Tool()
+    tool.name = 'rectangle'
+
+    let path;
+
+    tool.onMouseDown = function(event) {
+      path = new paper.Path.Circle({
+        center: event.point,
+        radius: 3,
+        fillColor: 'black'
+      })
+    }
+
+    tool.onMouseUp = function(event) {
+      path = new paper.Path.Rectangle({
+        point: event.point,
+        size: event.delta.length,
+        fillColor: 'black'
+      })
+    }
+
+    return tool
+  }
+
 
 export default ToolBox

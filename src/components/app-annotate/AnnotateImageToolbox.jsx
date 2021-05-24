@@ -20,10 +20,8 @@ const AnnotateImageToolbox = ({ canvas, img }) => {
             const scope = {};
             paper.install(scope);
             setPaperScope(scope);
-            const toolStack = new ToolBox(scope, ['freehand', 'circle']);
+            const toolStack = new ToolBox(scope, ['freehand', 'circle', 'rectangle']);
             setPapeToolBox(toolStack);
-            // setPaperTool(new PaperToolBox(scope));
-            // canvas.current.width, canvas.current.height
             setPaperOn(true);
         }
     }, [img]);
@@ -32,6 +30,12 @@ const AnnotateImageToolbox = ({ canvas, img }) => {
         isOn: false,
         data: {}
     });
+
+    const download = () => {
+        var img    = canvas.current.toDataURL("image/png");
+        document.write('<img src="'+img+'"/>');
+    }
+   
 
     const handleSelectTool = (e) => {
 
@@ -43,26 +47,9 @@ const AnnotateImageToolbox = ({ canvas, img }) => {
         switch (e.target.value) {
             case "freehand":
                 paperToolBox.activateTool('freehand');
-                // tool.onMouseDown = function (event) {
-                //     path = new paperScope.Path();
-                //     path.strokeColor = 'black';
-                // }
-
-                // tool.onMouseDrag = (event) => {
-                //     path.add(event.point);
-                // }
                 break;
             case "bbox":
-                paperToolBox.activateTool('circle');
-                // let rect;
-                // tool.onMouseDown = function (event) {
-                //     let circle = new paperScope.Path.Circle({
-                //         center: event.point,
-                //         radius: 5
-                //     });
-                //     circle.strokeColor = 'black';
-                //     circle.fillColor = 'white';
-                // }
+                paperToolBox.activateTool('rectangle');
                 break;
             default:
         }
@@ -98,6 +85,9 @@ const AnnotateImageToolbox = ({ canvas, img }) => {
                     <label className="form-check-label" htmlFor="paperTool2">
                         Free Hand
                     </label>
+                </div>
+                 <div className="form-check">
+                    <label htmlFor="customRange1" onClick={download} className="form-label text-primary">Download</label>
                 </div>
                 {/* <div className="form-check">
                     <label htmlFor="customRange1" className="form-label">Example range</label>
