@@ -18,7 +18,7 @@ ammass-annotate-images let's you search and annotate images from different sourc
 
 ## TODOs
 - [X] add loading spinner
-- [ ] add pagination support
+- [X] add pagination support
 - [X] add annotate page
 - [ ] add search discription in search page
 - [ ] add openCV operation

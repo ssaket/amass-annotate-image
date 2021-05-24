@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import {useHistory} from 'react-router-dom';
+import ImagePagination from './ImagePagination';
 
-const ImageFilter = ({ images, count, setCount }) => {
+const ImageFilter = ({ images, count, setCount, totalCount, handlePagination }) => {
 
     const history = useHistory();
 
@@ -37,16 +38,17 @@ const ImageFilter = ({ images, count, setCount }) => {
                                 <label htmlFor="imageperpages" className="form-label">Items per page </label>
                             </div>
                             <div className="col">
-                                <select id="imageperpages" className="form-select form-select-sm">
-                                    <option>10</option>
+                                <select id="imageperpages" onChange={handlePagination} className="form-select form-select-sm">
                                     <option>20</option>
                                     <option>30</option>
+                                    <option>40</option>
                                     <option>50</option>
                                     <option>100</option>
                                 </select>
                             </div>
                         </div>
                     </div>
+
                     <div className="mb-3">
                         <div className="form-check">
                             <input onChange={onChange} checked={isChecked} className="form-check-input" type="checkbox" id="selectAll" />
@@ -57,7 +59,7 @@ const ImageFilter = ({ images, count, setCount }) => {
                     </div>
                     <div className="mb-3">
                         <div className="form-text">
-                            <p>Total images: {images.length}</p>
+                            <p>Total images: {totalCount}</p>
                             <p>Selected: {count}</p>
                         </div>
                     </div>

@@ -4,8 +4,6 @@ import { Link } from 'react-router-dom';
 import paper from 'paper';
 import ToolBox from '../../main/app-annotate/ToolBox';
 
-// import cv from '../../AnnotateManager';
-
 const AnnotateImageToolbox = ({ canvas, img }) => {
 
     const [paperScope, setPaperScope] = useState({});

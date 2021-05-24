@@ -5,7 +5,6 @@ import Spinner from '../common/Spinner';
 const ImageItem = ({ image, count, setCount }) => {
 
     const { id, src, checked, name } = image;
-    const [isChecked, setChecked] = useState(false);
     const [isImageLoaded, setImageLoaded] = useState(false);
 
     const onChange = e => {
@@ -13,7 +12,7 @@ const ImageItem = ({ image, count, setCount }) => {
             setCount(count + 1);
         else
             setCount(count - 1);
-        setChecked(e.target.checked);
+        image.checked = e.target.checked;
     }
 
     const onImageLoad = e => {
@@ -31,7 +30,7 @@ const ImageItem = ({ image, count, setCount }) => {
                         <div className="form-check">
                          <React.Fragment>
                                 {isImageLoaded ?
-                                <input onChange={onChange} className="form-check-input" type="checkbox" value="" id={'src_' + id} checked={checked ? checked : isChecked} />
+                                <input onChange={onChange} className="form-check-input" type="checkbox" value="" id={'src_' + id} checked={checked} />
                                 : <Spinner styleName={"spinner-grow spinner-grow-sm text-warning"} />}
                                 <label className="form-check-label" htmlFor={id}>
                                     {isImageLoaded? "Annotate": "Downloading"}
