@@ -5,7 +5,6 @@ const AnnotateImageThumbnail = ({id, src, name, onClick, itemEls, imageElemList,
     const [height, setHeight] = useState(100);
 
     const image = new Image();
-    const canvasThumb = useRef(null);
 
     useEffect( () => {
         image.src = src;
@@ -21,9 +20,6 @@ const AnnotateImageThumbnail = ({id, src, name, onClick, itemEls, imageElemList,
 
     return (
         <React.Fragment> 
-            {/* <img src={src} alt={name} id={id} onClick={onClick}
-            ref={(element) => itemEls.current[id] = element}
-            style={{maxWidth: '10rem'}} className="img-thumbnail"></img> */}
             <canvas ref={(element) => itemEls.current[id] = element} 
                 width={width} height={height} className="p-3"
                 onClick={onClick} id={"imageThumbcanvas_" + id } />
