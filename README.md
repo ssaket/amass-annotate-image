@@ -23,9 +23,11 @@ ammass-annotate-images let's you search and annotate images from different sourc
 - [ ] add search term in search page
 ## Screenshots
 
-#### Landing Page
+#### Landing page
 ![Landing Page](/demo/mainwindow.jpg)
 #### Seach page
 ![Search Page](/demo/searchWindow.jpg)
+#### Annotate page
+![Annotate Page](demo/annotate.jpg)
 
 
