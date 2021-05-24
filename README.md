@@ -17,10 +17,13 @@ ammass-annotate-images let's you search and annotate images from different sourc
     - COCO-SEARCH-18
 
 ## TODOs
-- [ ] add loading spinner
+- [X] add loading spinner
 - [ ] add pagination support
-- [ ] add annotate page
-- [ ] add search term in search page
+- [X] add annotate page
+- [ ] add search discription in search page
+- [ ] add openCV operation
+- [ ] improve annotation
+- [ ] add annotation display
 ## Screenshots
 
 #### Landing page
