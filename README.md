@@ -1,7 +1,6 @@
 # Search and annotate images from multiple sources
 
-<img src='demo/website-designing.svg'  alt='icon' style='max-width:400px; display: block;width: 50%; margin: auto; padding-bottom: 10px;' />
-
+<p align="center"><img src="demo/website-designing.svg" height="256" /></p>
 
 An image annotation tool which can also help you with on-the-fly image processing stuff. This has [Paper.js](http://paperjs.org/) and [OpenCV.js](https://docs.opencv.org/3.4/d5/d10/tutorial_js_root.html) as major dependencies.
 
