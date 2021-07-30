@@ -2,13 +2,21 @@ import React, { useState } from 'react';
 import {useHistory} from 'react-router-dom';
 import ImagePagination from './ImagePagination';
 
-const ImageFilter = ({ images, count, setCount, totalCount, handlePagination }) => {
+type ImageFilterProps = {
+    images: any,
+    count: number,
+    setCount: any,
+    totalCount: number,
+    handlePagination: any
+}
+
+const ImageFilter = ({ images, count, setCount, totalCount, handlePagination }: ImageFilterProps) => {
 
     const history = useHistory();
 
     const [isChecked, setCheckbox] = useState(false);
 
-    const onChange = e => {
+    const onChange = (e: any) => {
         setCheckbox(e.target.checked);
         let curr_cnt = 0;
         for (const image of images) {
@@ -19,7 +27,7 @@ const ImageFilter = ({ images, count, setCount, totalCount, handlePagination }) 
         e.target.checked ? setCount(curr_cnt) : setCount(0);
     }
 
-    const onSubmit = e => {
+    const onSubmit = (e: any) => {
         history.push('/annotate');
     }
 

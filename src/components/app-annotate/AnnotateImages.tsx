@@ -2,16 +2,19 @@ import React, { useRef, useState, useEffect } from 'react';
 import AnnotateImageItem from './AnnotateImageItem';
 import AnnotateImageThumbnail from './AnnotateImageThumnail';
 import PropTypes from 'prop-types';
-import WebWorker from "react-webworker"
 
-const AnnotateImages = ({ images }) => {
+type AnnotateImagesProps = {
+    images: any
+}
+
+const AnnotateImages = ({ images }: AnnotateImagesProps) => {
 
     const canvasId = useRef(null);
     const itemEls = useRef({});
     const [imageElemList, setImageElemList] = useState([]);
 
     const [activeImage, setActiveImage] = useState(null);
-    const [imageList, setImageList] = useState([]);
+    const [imageList, setImageList] = React.useState<any>([]);
 
     useEffect(() => {
         let templist = [];
@@ -21,7 +24,7 @@ const AnnotateImages = ({ images }) => {
         setImageList(templist);
     }, []);
 
-    const onClick = e => {
+    const onClick = (e:any) => {
         setActiveImage(e.target);
         // console.log("mini canvas clicked");
         // const octx = canvasId.current.getContext('2d');
@@ -30,34 +33,32 @@ const AnnotateImages = ({ images }) => {
         // octx.drawImage(img, 0, 0, 500, 400);
     }
 
-    return (<WebWorker url="/js/cv.worker.js">
-        {({ data, error, postMessage, updatedAt, lastPostAt }) => (
-            <React.Fragment>
-                <div className="w-100 mt-5">
-                    {/* <div className="row" style={{height: '30rem'}}>
-                        <div className="col-2">
-                            <AnnotateImageToolbox canvas={canvasId} />
-                        </div>
-                        <div className="col-10">
-                            <AnnotateImageItem canvas={canvasId} imageElemList={imageElemList} data={data} postMessage={postMessage} activeImage={activeImage} />
-                        </div>
-                    </div> */}
-                    <AnnotateImageItem canvas={canvasId} imageElemList={imageElemList} data={data} postMessage={postMessage} activeImage={activeImage} />
-                    <div style={{ maxHeight: '600px', overflow: 'auto' }}>
-                            <div className="d-flex flex-row">
-                                {imageList.map((image, index) => {
-                                    return <AnnotateImageThumbnail onClick={onClick} postMessage={postMessage}
-                                    itemEls={itemEls} key={image.id} 
-                                    imageElemList={imageElemList} setImageElemList={setImageElemList}
-                                    id={image.id} src={image.src} name={image.name} />
-                                })
-                                }   
-                            </div>
-                        </div>
+    return (
+        <React.Fragment>
+        <div className="w-100 mt-5">
+            {/* <div className="row" style={{height: '30rem'}}>
+                <div className="col-2">
+                    <AnnotateImageToolbox canvas={canvasId} />
                 </div>
-            </React.Fragment>
-        )}
-    </WebWorker>);
+                <div className="col-10">
+                    <AnnotateImageItem canvas={canvasId} imageElemList={imageElemList} data={data} postMessage={postMessage} activeImage={activeImage} />
+                </div>
+            </div> */}
+            <AnnotateImageItem canvas={canvasId} imageElemList={imageElemList} data={''} activeImage={activeImage} />
+            <div style={{ maxHeight: '600px', overflow: 'auto' }}>
+                    <div className="d-flex flex-row">
+                        {imageList.map((image: any, index: any) => {
+                            return <AnnotateImageThumbnail onClick={onClick}
+                            itemEls={itemEls} key={image.id + index} 
+                            imageElemList={imageElemList} setImageElemList={setImageElemList}
+                            id={image.id} src={image.src} name={image.name} />
+                        })
+                        }   
+                    </div>
+                </div>
+        </div>
+    </React.Fragment>
+    );
 }
 
 AnnotateImages.propTypes = {

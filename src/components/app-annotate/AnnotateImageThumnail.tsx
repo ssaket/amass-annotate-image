@@ -1,6 +1,15 @@
-import React, {useRef, useEffect, useState} from 'react';
+import React, {useEffect, useState} from 'react';
+type AnnotateImageThumbnailProps = {
+    id: string,
+    src: string,
+    name: string,
+    onClick: any,
+    itemEls: any,
+    imageElemList: any,
+    setImageElemList: any
+}
 
-const AnnotateImageThumbnail = ({id, src, name, onClick, itemEls, imageElemList, setImageElemList}) => {
+const AnnotateImageThumbnail = ({id, src, name, onClick, itemEls, imageElemList, setImageElemList}: AnnotateImageThumbnailProps) => {
     const [width, setWidth] = useState(100);
     const [height, setHeight] = useState(100);
 
@@ -14,8 +23,9 @@ const AnnotateImageThumbnail = ({id, src, name, onClick, itemEls, imageElemList,
             console.log("image Thumbnail loaded");
             const ctx = itemEls.current[id].getContext('2d');
             ctx.drawImage(image,0,0, width, height); 
-            setImageElemList(imageElemList => [...imageElemList, image]);
+            setImageElemList((imageElemList: any) => [...imageElemList, image]);
         }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     return (

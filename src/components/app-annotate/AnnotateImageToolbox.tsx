@@ -1,15 +1,17 @@
 import React, { useEffect, useState } from 'react';
-import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
 import paper from 'paper';
 import ToolBox from '../../main/app-annotate/ToolBox';
 
-const AnnotateImageToolbox = ({ canvas, img }) => {
+type AnnotateImageToolboxProps = {
+    canvas: any,
+    img: any
+}
+const AnnotateImageToolbox = ({ canvas, img }: AnnotateImageToolboxProps) => {
 
-    const [paperScope, setPaperScope] = useState({});
+    const [paperScope, setPaperScope] = React.useState<any>({});
     const [isPaperOn, setPaperOn] = useState(false);
     const [selectedTool, setSelectedTool] = useState('');
-    const [paperToolBox, setPapeToolBox] = useState({});
+    const [paperToolBox, setPapeToolBox] = React.useState<any>({});
 
     useEffect(() => {
         if (!isPaperOn) {
@@ -35,7 +37,7 @@ const AnnotateImageToolbox = ({ canvas, img }) => {
     }
    
 
-    const handleSelectTool = (e) => {
+    const handleSelectTool = (e: any) => {
 
         const raster = new paperScope.Raster(img);
         raster.fitBounds(paperScope.view.bounds);
