@@ -2,12 +2,17 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import Spinner from '../common/Spinner';
 
-const ImageItem = ({ image, count, setCount }) => {
+type ImageItemProps = {
+    image: any,
+    count: number,
+    setCount: Function
+}
+const ImageItem = ({ image, count, setCount }: ImageItemProps) => {
 
     const { id, src, checked, name } = image;
     const [isImageLoaded, setImageLoaded] = useState(false);
 
-    const onChange = e => {
+    const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         if (e.target.checked)
             setCount(count + 1);
         else
@@ -15,7 +20,7 @@ const ImageItem = ({ image, count, setCount }) => {
         image.checked = e.target.checked;
     }
 
-    const onImageLoad = e => {
+    const onImageLoad = (e: any) => {
         image.naturalWidth = e.target.naturalWidth;
         image.naturalHeight = e.target.naturalHeight;
         setImageLoaded(true);

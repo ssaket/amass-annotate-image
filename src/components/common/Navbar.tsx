@@ -1,8 +1,10 @@
-import React from 'react';
-import PropTypes from 'prop-types'
+import * as React from 'react';
 import {Link} from 'react-router-dom';
 
-const Navbar = ({title}) => {
+type NavbarProps = {
+    title?: string
+}
+const Navbar = ({title = 'Amass-Annotate-Image'}: NavbarProps) => {
     return (
         <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
             <div className="container-fluid">
@@ -19,12 +21,4 @@ const Navbar = ({title}) => {
         </nav>
     );
 }
-
-Navbar.defaultProps = {
-    title: 'Amass-Annotate-Image'
-}
-Navbar.propTypes = {
-    title: PropTypes.string.isRequired
-}
-
 export default Navbar

@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import AnnotateImageToolbox from './AnnotateImageToolbox';
-import WebWorker from "react-webworker"
 import cv from '../../services/cv';
 
 const AnnotateImageItem = ({ canvas, activeImage, postMessage, imageElemList, data }) => {

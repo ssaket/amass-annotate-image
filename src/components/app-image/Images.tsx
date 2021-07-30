@@ -8,7 +8,12 @@ import ImagePagination from './ImagePagination';
 import ImageFilter from './ImageFilter';
 import './style.css';
 
-const Images = ({ images, loading }) => {
+type ImagesProps = {
+    images: Array<Object>,
+    loading: boolean
+} 
+
+const Images = ({ images, loading }: ImagesProps) => {
 
     const [count, setCount] = useState(0);
     const [startIndex, setStartIndex] = useState(0);
@@ -18,7 +23,7 @@ const Images = ({ images, loading }) => {
 
     useEffect(() => {
         const list = images.slice(startIndex, endIndex);
-        const imageList =  list.map((image) => {
+        const imageList =  list.map((image: any) => {
             return <ImageItem key={image.id}
                 image={image} count={count} setCount={setCount} />
         });
@@ -26,7 +31,7 @@ const Images = ({ images, loading }) => {
     }, [count, endIndex, images, loading, startIndex]);
 
 
-    const handlePagination = e => {
+    const handlePagination = ( e: any) => {
         if(e.type === 'change'){
             setEndIndex(e.target.value);
         }
@@ -55,7 +60,9 @@ const Images = ({ images, loading }) => {
                 </div>
                 {!loading &&
                     <div className="position-relative">
-                        <ImagePagination className="position-absolute bottom-0 start-50 translate-middle-x" handlePagination={handlePagination} totalCount={images.length} count={visibleImages.length} />
+                        <div className="position-absolute bottom-0 start-50 translate-middle-x">
+                            <ImagePagination handlePagination={handlePagination} totalCount={images.length} count={visibleImages.length} />
+                        </div>
                     </div>
                 }
 

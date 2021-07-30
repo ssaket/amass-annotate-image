@@ -1,6 +1,11 @@
 import React, { useEffect, useState } from 'react';
 
-const ImagePagination = ({ totalCount, count, handlePagination }) => {
+type ImagePaginationProps = {
+    totalCount: number,
+    count: number,
+    handlePagination: Function
+}
+const ImagePagination = ({ totalCount, count, handlePagination }: ImagePaginationProps) => {
 
     const [numberOfPages, setnumberOfPages] = useState(1);
     const [pages, setPages] = useState(Array.from(Array(1).keys()));
@@ -15,7 +20,7 @@ const ImagePagination = ({ totalCount, count, handlePagination }) => {
         setPages(pgs);
     }, [count, totalCount]);
 
-    const pagination = e => {
+    const pagination = (e: any) => {
         e.numberOfPages = numberOfPages;
         e.pageSize = count;
         if (e.target.innerText === "Next") {
@@ -48,19 +53,14 @@ const ImagePagination = ({ totalCount, count, handlePagination }) => {
             <nav aria-label="">
                 <ul className="pagination pagination-sm justify-content-end">
                     <li  onClick={pagination} className={activePage === 0 ? "page-item  disabled" : "page-item"}>
-                        <button className="page-link" tabIndex="-1">Previous</button>
+                        <button className="page-link">Previous</button>
                     </li>
                     {pages.map((item, index) => {
-                        return (<li key={index} onClick={pagination} id={item} className={activePage === item ? "page-item  active" : "page-item"} style={{ cursor: 'pointer' }} aria-current="page">
+                        return (<li key={index} onClick={pagination} id={item as any} className={activePage === item ? "page-item  active" : "page-item"} style={{ cursor: 'pointer' }} aria-current="page">
                             <span className="page-link">{item}</span>
                         </li>)
                     })}
 
-                    {/* <li className="page-item active" aria-current="page">
-                        <span className="page-link">1</span>
-                    </li>
-                    <li className="page-item"><button className="page-link" to="#">2</button></li>
-                    <li className="page-item"><button className="page-link" to="#">3</button></li> */}
                     <li onClick={pagination} className={activePage + 1 === numberOfPages ? "page-item  disabled" : "page-item"}>
                         <button className="page-link">Next</button>
                     </li>

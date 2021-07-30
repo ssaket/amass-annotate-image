@@ -1,13 +1,18 @@
 import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
-import PropTypes from 'prop-types';
 import './style.css';
 
-const ImageSearch = ({ searchImages, setLoading }) => {
+type ImageSearchProps = {
+    searchImages: Function,
+    setLoading: Function
+}
+
+
+const ImageSearch = ({ searchImages, setLoading } : ImageSearchProps) => {
     
     const history = useHistory();
 
-    const [imageList, setImageList] = useState('');
+    const [imageList, setImageList] = React.useState<string | boolean | undefined>('');
 
     const [source, setSource] = useState({
         flickr: false,
@@ -16,7 +21,7 @@ const ImageSearch = ({ searchImages, setLoading }) => {
         unsplash: false
     });
 
-    const onSubmit = e => {
+    const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         if (imageList === '' || !Object.values(source).includes(true)) {
             //this.props.setAlert('');
@@ -29,8 +34,8 @@ const ImageSearch = ({ searchImages, setLoading }) => {
         }
     }
 
-    const onChange = e => {
-        const value = e.target.type === 'checkbox' ? e.target.checked : e.target.value;
+    const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const value = e.target === 'checkbox' ? e.target.checked : e.target.value;
         switch (e.target.type) {
             case 'checkbox':
                 setSource({ ...source, [e.target.id]: value });
@@ -41,13 +46,13 @@ const ImageSearch = ({ searchImages, setLoading }) => {
     }
 
     return (
-        <React.Fragment>
+        <>
             <div className="mx-auto image-center">
                 <form onSubmit={onSubmit} className="d-flex flex-row justify-content-center">
                     <div className="align-self-center px-3">
                         <div className="form-check form-switch">
                             <input onChange={onChange} checked={source.flickr} className="form-check-input" type="checkbox" id="flickr" />
-                            <label className="form-check-label" htmlFor="flickr"> Flickr</label>
+                            <label className="form-check-label" htmlFor="flickr">Flickr</label>
                         </div>
                         <div className="form-check form-switch">
                             <input onChange={onChange} checked={source.pexels} className="form-check-input" type="checkbox" id="pexels" />
@@ -64,7 +69,7 @@ const ImageSearch = ({ searchImages, setLoading }) => {
                     </div>
                     <div className="row w-40 align-self-center px-5">
                         <div className="col-8">
-                            <input onChange={onChange} type="text" className="form-control" id="imageList" placeholder="search for images" value={imageList} />
+                            <input onChange={onChange} type="text" className="form-control" id="imageList" placeholder="search for images" value={imageList as string} />
                         </div>
                         <div className="col-2">
                             <button type="submit" className="btn btn-primary mb-3">Search</button>
@@ -72,12 +77,8 @@ const ImageSearch = ({ searchImages, setLoading }) => {
                     </div>
                 </form>
             </div>
-        </React.Fragment>
+        </>
     );
-}
-
-ImageSearch.propTypes = {
-    searchImages: PropTypes.func.isRequired
 }
 
 export default ImageSearch
