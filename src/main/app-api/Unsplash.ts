@@ -5,7 +5,7 @@ export default class Unsplash {
     url: string;
     searchURL: string;
     clientId: string;
-    _params: any;
+    params: any;
     
     constructor() {
       this.name = 'unsplash';
@@ -13,7 +13,7 @@ export default class Unsplash {
       this.searchURL = "/search/photos?";
       this.clientId = `${process.env.REACT_APP_UNSPLASH_ACCESS_KEY}`;
   
-      this._params = {
+      this.params = {
         search: {
           query: null,
           page: 1,
@@ -24,15 +24,7 @@ export default class Unsplash {
         },
       };
     }
-
-    get params (){
-      return this._params;
-    }
-
-    set params(dprops){
-      this._params = dprops;
-    }
-  
+    
     searchByName(params: string | number | boolean) {
       return new Promise((resolve, reject) => {
         let queryString = "";

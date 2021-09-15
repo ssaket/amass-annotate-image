@@ -6,7 +6,7 @@ export default class Pexels {
   searchURL: string;
   api_key: string;
   paginationDepth: number;
-  _params: any;
+  params: any;
   
   constructor() {
     this.name = "pexels";
@@ -15,7 +15,7 @@ export default class Pexels {
     this.api_key = `${process.env.REACT_APP_PEXELS_API_KEY}`;
     this.paginationDepth = 3;
 
-    this._params = {
+    this.params = {
       search: {
         query: null,
         local: null,
@@ -23,14 +23,6 @@ export default class Pexels {
         page: 1,
       },
     };
-  }
-
-  get params() {
-    return this._params;
-  }
-
-  set params(dprops) {
-    this._params = dprops;
   }
 
   searchByName(params: string | number | boolean) {

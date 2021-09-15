@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
-import ImageSearch from './components/app-search/ImageSearch';
-import Images from './components/app-image/Images';
+// import ImageSearch from './components/app-search/ImageSearch';
+// import Images from './components/app-image/Images';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import { ImageSearchManager } from './main/app-api/SearchManager';
-import AnnotateImages from './components/app-annotate/AnnotateImages';
+// import AnnotateImages from './components/app-annotate/AnnotateImages';
 import Navbar from './components/common/Navbar';
 
 import './bootstrap.min.css';
@@ -22,7 +22,7 @@ const App = () => {
     ImageSearchManager.reset();
     Object.entries(sources).forEach(([key, value]) => value ? ImageSearchManager.addSource(key) : null);
     const data = await ImageSearchManager.getImagesByName(text);
-    setImages(data);
+    // setImages(data);
     setLoading(false);
   }
 
@@ -30,7 +30,7 @@ const App = () => {
     <Router>
       <div className="App">
         <Navbar />
-        <div className="container">
+        {/* <div className="container">
           <Switch>
             <Route exact path="/" render={props => (
               <React.Fragment>
@@ -50,7 +50,7 @@ const App = () => {
               <AnnotateImages {...props} images={images} />
             )} />
           </Switch>
-        </div>
+        </div> */}
       </div>
     </Router>
   );

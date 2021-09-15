@@ -2,8 +2,6 @@ import Unsplash from "./Unsplash";
 import Flickr from "./Flickr";
 import Pixabay from "./Pixabay";
 import Pexels from "./Pexels";
-import { AnyMxRecord } from "dns";
-
 class Commands {
   recv: any;
   catchData: any;
@@ -14,7 +12,7 @@ class Commands {
     this.catchData = null;
     this.executionResults = [];
     if (new.target === Commands) {
-      throw "Can't create object of the abstract class";
+      throw Error("Can't create object of the abstract class");
     }
   }
   execute() {}

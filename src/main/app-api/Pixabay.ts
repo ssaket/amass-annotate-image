@@ -5,14 +5,14 @@ export default class Pixabay {
   url: string;
   searchURL: string;
   clientId: string;
-  _params: any;
+  params: any;
   constructor() {
     this.name = "pixabay";
     this.url = "https://pixabay.com";
     this.searchURL = "/api/?";
     this.clientId = `${process.env.REACT_APP_PIXABAY_API_KEY}`;
 
-    this._params = {
+    this.params = {
       search: {
         q: null,
         lang: "en",
@@ -26,14 +26,6 @@ export default class Pixabay {
         orientation: null,
       },
     };
-  }
-
-  get params() {
-    return this._params;
-  }
-
-  set params(dprops) {
-    this._params = dprops;
   }
 
   searchByName(params: string | number | boolean) {
