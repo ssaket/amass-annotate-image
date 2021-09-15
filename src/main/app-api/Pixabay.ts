@@ -1,6 +1,11 @@
 import FetchProxy from "./FetchProxy";
 
 export default class Pixabay {
+  name: string;
+  url: string;
+  searchURL: string;
+  clientId: string;
+  _params: any;
   constructor() {
     this.name = "pixabay";
     this.url = "https://pixabay.com";
@@ -31,7 +36,7 @@ export default class Pixabay {
     this._params = dprops;
   }
 
-  searchByName(params) {
+  searchByName(params: string | number | boolean) {
     return new Promise((resolve, reject) => {
       let queryString = "";
       let response;
@@ -56,10 +61,10 @@ export default class Pixabay {
     });
   }
 
-  processResponse(response) {
-    const imageList = [];
+  processResponse(response: { hits: any; }) {
+    const imageList: { id: any; src: any; }[] = [];
     const results = response.hits;
-    results.forEach((item) => {
+    results.forEach((item: { id: any; webformatURL: any; }) => {
       imageList.push({ id: item.id, src: item.webformatURL });
     });
     return imageList;

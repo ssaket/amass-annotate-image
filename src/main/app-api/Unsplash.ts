@@ -1,6 +1,12 @@
 import FetchProxy from "./FetchProxy"
 
 export default class Unsplash {
+    name: string;
+    url: string;
+    searchURL: string;
+    clientId: string;
+    _params: any;
+    
     constructor() {
       this.name = 'unsplash';
       this.url = "https://api.unsplash.com";
@@ -27,7 +33,7 @@ export default class Unsplash {
       this._params = dprops;
     }
   
-    searchByName(params) {
+    searchByName(params: string | number | boolean) {
       return new Promise((resolve, reject) => {
         let queryString = "";
         let response;
@@ -51,10 +57,10 @@ export default class Unsplash {
       });
     }
   
-    processResponse(response) {
-      const imageList = [];
+    processResponse(response: { results: any; }) {
+      const imageList: { id: any; src: any; }[] = [];
       const results = response.results;
-      results.forEach(item => {
+      results.forEach((item: { id: any; urls: { regular: any; }; }) => {
         imageList.push({'id':item.id, 'src': item.urls.regular});
       });
       return imageList;

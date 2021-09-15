@@ -1,6 +1,13 @@
 import FetchProxy from "./FetchProxy";
 
 export default class Flickr {
+  name: string;
+  url: string;
+  api_key: string;
+  paginationDepth: number;
+  _params: any;
+  
+  
   constructor() {
     this.name = "flickr";
     this.url = "https://www.flickr.com/services/rest/?";
@@ -34,7 +41,7 @@ export default class Flickr {
     this._params = dprops;
   }
 
-  generateURL(params) {
+  generateURL(params: string | number | boolean | null) {
     let queryString = "";
     if (params) {
       this.params["search"].text = encodeURIComponent(params);
@@ -55,9 +62,9 @@ export default class Flickr {
     return url;
   }
 
-  searchByName(params) {
+  searchByName(params: any) {
     return new Promise((resolve, reject) => {
-      let response;
+      let response: unknown;
       const url = this.generateURL(params);
       const fetchProxy = new FetchProxy();
       fetchProxy
@@ -65,18 +72,18 @@ export default class Flickr {
         .then((resp) => resp.json())
         .then((data) => {
           response = this.processResponse(data);
-          this.addPaginatedResponse(response).then(() => resolve(response));
+          this.addPaginatedResponse(response as any).then(() => resolve(response));
         });
     });
   }
-  async addPaginatedResponse(resp) {
+  async addPaginatedResponse(resp: any[]) {
     if (this.params["search"].page === this.paginationDepth + 1) return;
     this.params["search"].page += 1;
-    const url = this.generateURL();
+    const url = this.generateURL(null);
     const fetchProxy = new FetchProxy();
     let res = await fetchProxy.asyncGET(url);
     res = res.photos.photo;
-    res.forEach((item) => {
+    res.forEach((item: { id: string; title: any; farm: any; server: any; secret: any; }) => {
       resp.push({
         id: "fl" + item.id,
         name: item.title,
@@ -86,11 +93,11 @@ export default class Flickr {
     await this.addPaginatedResponse(resp);
   }
 
-  processResponse(response) {
-    const imageList = [];
+  processResponse(response: { photos: any; }) {
+    const imageList: { id: string; name: any; src: string; }[] = [];
     const results = response.photos;
     const images = results.photo;
-    images.forEach((item) => {
+    images.forEach((item: { id: string; title: any; farm: any; server: any; secret: any; }) => {
       imageList.push({
         id: "fl" + item.id,
         name: item.title,

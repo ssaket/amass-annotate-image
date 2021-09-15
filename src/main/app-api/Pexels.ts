@@ -1,6 +1,13 @@
 import FetchProxy from "./FetchProxy";
 
 export default class Pexels {
+  name: string;
+  url: string;
+  searchURL: string;
+  api_key: string;
+  paginationDepth: number;
+  _params: any;
+  
   constructor() {
     this.name = "pexels";
     this.url = "https://api.pexels.com/v1";
@@ -26,10 +33,10 @@ export default class Pexels {
     this._params = dprops;
   }
 
-  searchByName(params) {
+  searchByName(params: string | number | boolean) {
     return new Promise((resolve, reject) => {
       let queryString = "";
-      let response;
+      let response: unknown;
       this.params["search"].query = encodeURIComponent(params);
       for (const [key, value] of Object.entries(this.params["search"])) {
         if (value) {
@@ -52,14 +59,14 @@ export default class Pexels {
         .then((resp) => resp.json())
         .then((data) => {
           response = this.processResponse(data);
-          this.addPaginatedResponse(response, data.next_page).then(() =>
+          this.addPaginatedResponse(response as any, data.next_page).then(() =>
             resolve(response)
           );
         });
     });
   }
 
-  async addPaginatedResponse(resp, url) {
+  async addPaginatedResponse(resp: any[], url: RequestInfo) {
     if (this.paginationDepth === 0) return resp;
 
     const fetchProxy = new FetchProxy();
@@ -73,7 +80,7 @@ export default class Pexels {
     });
     const nresp = await fetchProxy.getACustomRequest(myRequest);
     const results = nresp.photos;
-    results.forEach((item) => {
+    results.forEach((item: { id: string; photographer: any; src: { medium: any; }; }) => {
       resp.push({
         id: "pex" + item.id,
         name: item.photographer,
@@ -84,10 +91,10 @@ export default class Pexels {
     this.addPaginatedResponse(resp, nresp.next_page);
   }
 
-  processResponse(response) {
-    const imageList = [];
+  processResponse(response: { photos: any; }) {
+    const imageList: { id: string; name: any; src: any; }[] = [];
     const results = response.photos;
-    results.forEach((item) => {
+    results.forEach((item: { id: string; photographer: any; src: { medium: any; }; }) => {
       imageList.push({
         id: "pex" + item.id,
         name: item.photographer,

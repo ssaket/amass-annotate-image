@@ -2,11 +2,16 @@ import Unsplash from "./Unsplash";
 import Flickr from "./Flickr";
 import Pixabay from "./Pixabay";
 import Pexels from "./Pexels";
+import { AnyMxRecord } from "dns";
 
 class Commands {
-  constructor(recv) {
+  recv: any;
+  catchData: any;
+  executionResults: any;
+
+  constructor(recv: any) {
     this.recv = recv;
-    this.cachedData = null;
+    this.catchData = null;
     this.executionResults = [];
     if (new.target === Commands) {
       throw "Can't create object of the abstract class";
@@ -16,7 +21,11 @@ class Commands {
 }
 
 class SearchByName extends Commands {
-  constructor(recv, searchTerm) {
+
+  name: any;
+  searchTerm: any; 
+
+  constructor(recv: any, searchTerm: any) {
     super(recv);
 
     this.name = "search_by_name";
@@ -25,22 +34,24 @@ class SearchByName extends Commands {
 
   execute(cached = false) {
     if (!cached) {
-      this.recv.forEach((recv) => {
+      this.recv.forEach((recv: { searchByName: (arg0: any) => any; }) => {
         this.executionResults.push(recv.searchByName(this.searchTerm));
       });
       return Promise.all(this.executionResults);
     } else {
-      return Promise.resolve(this.cachedData);
+      return Promise.resolve(this.catchData);
     }
   }
 
-  setCachedData(data) {
-    this.cachedData = data;
+  setcatchData(data: any) {
+    this.catchData = data;
   }
 }
 
 class SearchByTag extends Commands {
-  constructor(recv) {
+  name: any;
+
+  constructor(recv: any) {
     super(recv);
 
     this.name = "search_by_tag";
@@ -51,45 +62,41 @@ class SearchByTag extends Commands {
 }
 
 class SearchManager {
+  commands: any;
+  sources: any;
+  currentCmd: any;
+
   constructor() {
-    this._commands = [];
-    this._sources = [];
+    this.commands = [];
+    this.sources = [];
     console.info("Search Manager has been created, please add sources now");
   }
 
-  get sources() {
-    return this._sources;
-  }
-
-  set sources(sources) {
-    this._sources = sources;
-  }
-
   reset(){
-    this._commands = [];
-    this._sources = [];
+    this.commands = [];
+    this.sources = [];
   }
 
-  addSource(source) {
+  addSource(source: string) {
     if (typeof source !== "string") {
-      const found = this._sources.find((element) => element.name === source);
-      if (!found) this._sources.push(source);
+      const found = this.sources.find((element: { name: any; }) => element.name === source);
+      if (!found) this.sources.push(source);
     } else {
       const sourceObj = this.createSourceObject(source);
-      this._sources.push(sourceObj);
+      this.sources.push(sourceObj);
     }
   }
 
-  removeSource(name) {
-    const index = this._sources.findIndex(
-      (element) => element.name === name.toLowerCase()
+  removeSource(name: string) {
+    const index = this.sources.findIndex(
+      (element: { name: any; }) => element.name === name.toLowerCase()
     );
     if (index !== -1) {
-      this._sources.splice(index, 1);
+      this.sources.splice(index, 1);
     }
   }
 
-  createSourceObject(name) {
+  createSourceObject(name: string) {
     switch (name.toLowerCase()) {
       case "unsplash":
         return new Unsplash();
@@ -104,19 +111,19 @@ class SearchManager {
     }
   }
 
-  command(cmd) {
+  command(cmd: SearchByName) {
     this.currentCmd = cmd;
   }
 
   execute() {
     return new Promise((resolve, reject) => {
       let cached = false;
-      for (let cmd of this._commands) {
+      for (let cmd of this.commands) {
         if (
           cmd.name === this.currentCmd.name &&
           cmd.searchTerm === this.currentCmd.searchTerm &&
           cmd.recv.length === this.currentCmd.recv.length &&
-          cmd.recv.filter((value) => !this.currentCmd.recv.includes(value))
+          cmd.recv.filter((value: any) => !this.currentCmd.recv.includes(value))
             .length > 0
         ) {
           cached = true;
@@ -125,21 +132,21 @@ class SearchManager {
         }
       }
 
-      this._commands.push(this.currentCmd);
+      this.commands.push(this.currentCmd);
 
       this.currentCmd.execute(cached).then(
-        (data) => {
-          this.currentCmd.setCachedData(data);
+        (data: any[]) => {
+          this.currentCmd.setcatchData(data);
           resolve(data.flat());
         },
-        (error) => {
+        (error: any) => {
           reject(error);
         }
       );
     });
   }
 
-  getImagesByName(name) {
+  getImagesByName(name: string) {
     if(this.sources.length === 0){
       console.error("No sources, please add source to search");
       return;

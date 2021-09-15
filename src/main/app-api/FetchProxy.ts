@@ -1,17 +1,19 @@
 export default class FetchProxy {
-    constructor(url) {
+    url: string;
+
+    constructor(url: string = '') {
       this.url = url;
     }
   
-    get(url, params = { mode: "cors" }) {
+    get(url: RequestInfo, params: any = { mode: "cors" }) {
       return fetch(url, params);
     }
 
-    getCustomRequest(request){
+    getCustomRequest(request: RequestInfo){
       return fetch(request);
     }
 
-    async getACustomRequest(request){
+    async getACustomRequest(request: RequestInfo){
       const response = await fetch(request);
       let content;
 
@@ -25,7 +27,7 @@ export default class FetchProxy {
       }
     }
 
-    async asyncGET(url){
+    async asyncGET(url: RequestInfo){
       const response = await fetch(url, {mode: 'cors'});
       let content;
 
